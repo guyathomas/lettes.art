@@ -5,12 +5,10 @@ import Header from "components/Header";
 import { Container } from "@material-ui/core";
 
 const MainLayout: React.FC = ({ children }) => (
-  <>
+  <Container>
     <Header />
-    <Container>
-      {children}
-    </Container>
-  </>
+    {children}
+  </Container>
 );
 
 const layoutSpec: LayoutSpec[] = [

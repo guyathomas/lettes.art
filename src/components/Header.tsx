@@ -1,18 +1,47 @@
 import { FC } from "react";
-import { AppBar, Button, Toolbar, Typography, Box } from "@material-ui/core";
-import ButtonLink from "components/ButtonLink";
+import { Toolbar, Typography } from "@material-ui/core";
+import Link from "next/link";
+
+import styled from "@emotion/styled";
+
+const HomeLink = styled.a`
+  text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+    color: palette.primary.light;
+  }
+  &:active {
+    text-decoration: none;
+  }
+`;
 
 const Header: FC = () => {
   return (
-    <AppBar position="static" sx={{ backgroundColor: "background.paper" }}>
-      <Toolbar>
-        <Button component={ButtonLink} href="/" color="inherit">
-          <Typography variant="h6" color="inherit" marginLeft={1}>
-            Lettes.art
-          </Typography>
-        </Button>
-      </Toolbar>
-    </AppBar>
+    <Toolbar
+      sx={{
+        paddingTop: 9,
+        paddingBottom: 9,
+        paddingLeft: '0 !important',
+        paddingRight: '0 !important',
+      }}
+    >
+      <Typography
+        variant="h4"
+
+        sx={{
+          textTransform: 'uppercase',
+          ":hover": {
+            color: "primary.main",
+          },
+        }}
+      >
+        <Link href="/">
+          <HomeLink>Lettes.art</HomeLink>
+        </Link>
+      </Typography>
+    </Toolbar>
   );
 };
 
