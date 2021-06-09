@@ -1,9 +1,5 @@
-import {
-  Box,
-  ImageList,
-  ImageListItem,
-  Typography,
-} from "@material-ui/core";
+import { Box, ImageList, ImageListItem, Typography, Theme } from "@material-ui/core";
+import { makeStyles, ThemeOfStyles } from "@material-ui/styles";
 import * as contentful from "contentful";
 import { EntryCollection, RichTextContent } from "contentful";
 import styled from "@emotion/styled";
@@ -20,9 +16,22 @@ const EnlargeableImageListItem = styled(ImageListItem)`
   &:hover {
     transform: scale(1.01);
     z-index: 2;
-    opacity: 0.8;
   }
 `;
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    [theme.breakpoints.down("sm")]: {
+      gridTemplateColumns: "repeat(1, 1fr) !important",
+    },
+    [theme.breakpoints.up("sm")]: {
+      gridTemplateColumns: "repeat(2, 1fr) !important",
+    },
+    [theme.breakpoints.up("md")]: {
+      gridTemplateColumns: "repeat(3, 1fr) !important",
+    },
+  },
+}));
 
 type ImageEntry = {
   title: string;
@@ -56,6 +65,7 @@ interface IndexProps {
 }
 const Index: React.FC<IndexProps> = ({ artwork }) => {
   const hasArtwork = artwork?.items?.length;
+  const classes = useStyles();
   if (!hasArtwork) {
     return (
       <Typography variant="h2" textAlign="center" marginTop={5}>
@@ -64,7 +74,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
     );
   }
   return (
-    <ImageList cols={3} gap={20}>
+    <ImageList gap={20} className={classes.root}>
       {artwork.items.map((item) => {
         const { title, file } = item.fields.images[0].fields;
         return (
