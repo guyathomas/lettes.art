@@ -2,11 +2,14 @@ import { useRouter } from "next/router";
 import LayoutForPath, { LayoutSpec } from "@guyathomas/layout-for-path";
 
 import Header from "components/Header";
+import { Container } from "@material-ui/core";
 
 const MainLayout: React.FC = ({ children }) => (
   <>
     <Header />
-    {children}
+    <Container>
+      {children}
+    </Container>
   </>
 );
 
@@ -27,4 +30,4 @@ const AppLayout: React.FC = ({ children }) => {
   );
 };
 
-export default AppLayout
+export default AppLayout;

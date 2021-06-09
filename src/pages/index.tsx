@@ -1,3 +1,11 @@
+import {
+  Box,
+  ImageList,
+  ImageListItem,
+  Typography,
+  Container,
+  ImageListItemBar,
+} from "@material-ui/core";
 import * as contentful from "contentful";
 import { EntryCollection, RichTextContent } from "contentful";
 
@@ -21,24 +29,47 @@ type ImageEntry = {
 
 interface ArtEntry {
   title: string;
-  caption: RichTextContent
   forSale: boolean;
-  images: EntryCollection<ImageEntry>[];
+  images: EntryCollection<ImageEntry>["items"];
+  slug: string;
+  description: RichTextContent;
 }
 export const getStaticProps = async () => {
   const entries = await client.getEntries<ArtEntry>();
   return {
     props: {
-      artwork: entries.items,
+      artwork: entries,
     },
     revalidate: ONE_DAY,
   };
 };
 interface IndexProps {
-  artwork: EntryCollection<ArtEntry>["items"];
+  artwork: EntryCollection<ArtEntry>;
 }
 const Index: React.FC<IndexProps> = ({ artwork }) => {
-  // console.log('zzz',artwork[0].fields.caption)
-  return <div>Hello, world!</div>;
+  return (
+    <>
+      <Typography variant="h1" textAlign="center" marginTop={5}>
+        I'm Collette!
+      </Typography>
+      {artwork?.items?.length ? (
+        <ImageList>
+          {artwork.items.map((item) => {
+            const { title, file } = item.fields.images[0].fields;
+            return (
+              <ImageListItem key={item.sys.id}>
+                <img src={file.url} alt={title} loading="lazy" />
+                <ImageListItemBar title={title} />
+              </ImageListItem>
+            );
+          })}
+        </ImageList>
+      ) : (
+        <Typography variant="h2" textAlign="center" marginTop={5}>
+          No Images Found 😢
+        </Typography>
+      )}
+    </>
+  );
 };
 export default Index;
