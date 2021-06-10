@@ -48,23 +48,38 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
           <CloseIcon fontSize="large" />
         </Button>
         <Grid container>
-          <Grid item xs={12} md={6} p={2}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            p={2}
+            sx={{
+              maxHeight: "100vh",
+              overflowY: "scroll",
+            }}
+          >
             <Typography variant="h4" marginRight={1}>
               {artItem.fields.title}
             </Typography>
             <Typography>{artItem.fields.description}</Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
-            {artItem.fields.images.map(
-              ({ fields: { file, title } }) => (
-                <Image
-                  src={file.url.replace("//", "https://")}
-                  width={file.details.image.width}
-                  height={file.details.image.height}
-                  alt={title}
-                />
-              )
-            )}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              maxHeight: "100vh",
+              overflowY: "scroll",
+            }}
+          >
+            {artItem.fields.images.map(({ fields: { file, title } }) => (
+              <Image
+                src={file.url.replace("//", "https://")}
+                width={file.details.image.width}
+                height={file.details.image.height}
+                alt={title}
+              />
+            ))}
           </Grid>
         </Grid>
       </Box>
