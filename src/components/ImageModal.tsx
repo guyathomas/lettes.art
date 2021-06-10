@@ -12,7 +12,9 @@ import {
   TableContainer,
   TableBody,
   Paper,
+  Link,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import Image from "next/image";
@@ -69,6 +71,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
       artHeight,
       artWidth,
       description,
+      price,
     },
   } = artItem;
   return (
@@ -110,6 +113,24 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                     </TableCell>
                     <TableCell>{forSale ? "Yes" : "No"}</TableCell>
                   </TableRow>
+                  {forSale && price && (
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Price
+                      </TableCell>
+                      <TableCell>
+                        ${price}{" - Inquire "}
+                        <Link
+                          href={`mailto:barlow.collette@gmail.com?&subject=Purchase Inquiry: ${title}&body=I'm interested in this artwork%0A%0A${images[0].fields.file.url.replace(
+                            "//",
+                            "https://"
+                          )}%0A%0A`}
+                        >
+                          barlow.collette@gmail.com
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {typeof isFramed === "boolean" && (
                     <TableRow>
                       <TableCell component="th" scope="row">

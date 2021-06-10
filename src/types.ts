@@ -23,5 +23,6 @@ export interface ArtEntry {
   artHeight: number;
   artWidth: number;
   description: Document;
+  price?: number;
 }
 export type ArtItem = EntryCollection<ArtEntry>["items"][0];
