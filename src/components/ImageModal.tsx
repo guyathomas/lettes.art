@@ -75,7 +75,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
           >
             {artItem.fields.images.map(({ fields: { file, title } }) => (
               <Image
-                src={file.url.replace("//", "https://")}
+                src={file.url.replace("//", "https://") + `?w=600`}
                 width={file.details.image.width}
                 height={file.details.image.height}
                 alt={title}

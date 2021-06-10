@@ -90,7 +90,13 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }}
               className={classes.imageListItem}
             >
-              <img src={file.url} alt={item.fields.title} loading="lazy" />
+              <img
+                src={file.url + `?w=600`}
+                width={file.details.image.width}
+                height={file.details.image.height}
+                alt={item.fields.title}
+                loading="lazy"
+              />
               <Box marginBottom={2.5} marginTop={0.5}>
                 <Typography
                   textAlign="center"
