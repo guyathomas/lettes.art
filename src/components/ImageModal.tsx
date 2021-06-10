@@ -27,6 +27,18 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
       backgroundColor: theme.palette.background.paper,
     },
   },
+  gridContainer: {
+    [theme.breakpoints.down("md")]: {
+      maxHeight: "100vh",
+      overflowY: "scroll",
+    },
+  },
+  gridColumn: {
+    [theme.breakpoints.up("md")]: {
+      maxHeight: "100vh",
+      overflowY: "scroll",
+    },
+  },
 }));
 
 const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
@@ -48,31 +60,14 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
         <Button size="large" onClick={onClose} className={classes.closeButton}>
           <CloseIcon fontSize="large" />
         </Button>
-        <Grid container>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            p={2}
-            sx={{
-              maxHeight: "100vh",
-              overflowY: "scroll",
-            }}
-          >
+        <Grid container className={classes.gridContainer}>
+          <Grid item className={classes.gridColumn} xs={12} md={6} p={2}>
             <Typography variant="h4" marginRight={1}>
               {artItem.fields.title}
             </Typography>
             {documentToReactComponents(artItem.fields.description)}
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{
-              maxHeight: "100vh",
-              overflowY: "scroll",
-            }}
-          >
+          <Grid item className={classes.gridColumn} xs={12} md={6}>
             {artItem.fields.images.map(({ fields: { file, title } }) => (
               <Image
                 src={file.url.replace("//", "https://") + `?w=600`}
