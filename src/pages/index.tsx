@@ -91,7 +91,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               className={classes.imageListItem}
             >
               <img
-                src={file.url + `?w=600`}
+                src={file.url + `?w=600&fm=webp`}
                 width={file.details.image.width}
                 height={file.details.image.height}
                 alt={item.fields.title}
