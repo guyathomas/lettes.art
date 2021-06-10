@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import Image from "next/image";
 import { ArtItem } from "types";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 interface ImageModalProps {
   onClose: () => void;
@@ -61,7 +62,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
             <Typography variant="h4" marginRight={1}>
               {artItem.fields.title}
             </Typography>
-            <Typography>{artItem.fields.description}</Typography>
+            {documentToReactComponents(artItem.fields.description)}
           </Grid>
           <Grid
             item

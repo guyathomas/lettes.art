@@ -81,7 +81,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             console.warn(`Artwork: ${item.fields.title} has no image fields`)
             return null
           }
-          const { title, file } = item.fields.images[0].fields;
+          const { file } = item.fields.images[0].fields;
           return (
             <ImageListItem
               key={item.sys.id}
@@ -90,14 +90,14 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }}
               className={classes.imageListItem}
             >
-              <img src={file.url} alt={title} loading="lazy" />
+              <img src={file.url} alt={item.fields.title} loading="lazy" />
               <Box marginBottom={2.5} marginTop={0.5}>
                 <Typography
                   textAlign="center"
                   variant="h6"
                   sx={{ textTransform: "uppercase" }}
                 >
-                  {title}
+                  {item.fields.title}
                 </Typography>
               </Box>
             </ImageListItem>

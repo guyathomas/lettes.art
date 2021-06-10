@@ -1,4 +1,5 @@
 import { EntryCollection, RichTextContent } from "contentful";
+import { Document } from "@contentful/rich-text-types"
 
 export type ImageEntry = {
   title: string;
@@ -16,6 +17,6 @@ export interface ArtEntry {
   forSale: boolean;
   images: EntryCollection<ImageEntry>["items"];
   slug: string;
-  description: RichTextContent;
+  description: Document;
 }
 export type ArtItem = EntryCollection<ArtEntry>["items"][0];
