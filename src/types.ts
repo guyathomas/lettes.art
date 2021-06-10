@@ -1,4 +1,4 @@
-import { EntryCollection, RichTextContent } from "contentful";
+import { EntryCollection } from "contentful";
 import { Document } from "@contentful/rich-text-types"
 
 export type ImageEntry = {
@@ -14,9 +14,14 @@ export type ImageEntry = {
 
 export interface ArtEntry {
   title: string;
-  forSale: boolean;
   images: EntryCollection<ImageEntry>["items"];
-  slug: string;
+  isFramed: boolean;
+  mediumSurface: ('Canvas' | 'Sketch Paper' | 'Watercolour Paper ( 300gsm )')[];
+  mediumPaint: ('Acrylic' | 'Graphite' | 'Watercolour')[]
+  forSale?: boolean;
+  dateCompleted: any; // TODO: Not sure what format
+  artHeight: number;
+  artWidth: number;
   description: Document;
 }
 export type ArtItem = EntryCollection<ArtEntry>["items"][0];

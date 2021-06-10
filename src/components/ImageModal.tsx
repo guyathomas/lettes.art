@@ -1,5 +1,18 @@
 import React from "react";
-import { Box, Typography, Theme, Modal, Grid, Button } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Theme,
+  Modal,
+  Grid,
+  Button,
+  TableCell,
+  TableRow,
+  Table,
+  TableContainer,
+  TableBody,
+  Paper,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import Image from "next/image";
@@ -45,6 +58,20 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
   const classes = useImageModalStyles();
 
   if (!artItem) return null;
+  const {
+    fields: {
+      title,
+      images,
+      isFramed,
+      mediumSurface,
+      mediumPaint,
+      forSale,
+      dateCompleted,
+      artHeight,
+      artWidth,
+      description,
+    },
+  } = artItem;
   return (
     <Modal open={Boolean(artItem)} onClose={onClose}>
       <Box
@@ -62,13 +89,52 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
         </Button>
         <Grid container className={classes.gridContainer}>
           <Grid item className={classes.gridColumn} xs={12} md={6} p={2}>
-            <Typography variant="h4" marginRight={1}>
-              {artItem.fields.title}
+            <Typography variant="h4" marginRight={1} marginBottom={2}>
+              {title}
             </Typography>
-            {documentToReactComponents(artItem.fields.description)}
+            <TableContainer component={Paper}>
+              <Table>
+                <TableBody>
+                  {mediumPaint && mediumSurface && (
+                    <TableRow>
+                      <TableCell>Medium</TableCell>
+                      <TableCell component="th" scope="row">
+                        {`${mediumPaint.join(", ")} on ${mediumSurface.join(
+                          ", "
+                        )}`}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      For Sale
+                    </TableCell>
+                    <TableCell>{forSale ? "Yes" : "No"}</TableCell>
+                  </TableRow>
+                  {typeof isFramed === "boolean" && (
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Is Framed
+                      </TableCell>
+                      <TableCell>{forSale ? "Yes" : "No"}</TableCell>
+                    </TableRow>
+                  )}
+                  {artHeight && artWidth && (
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        Dimensions
+                      </TableCell>
+                      <TableCell>{`${artWidth} x ${artHeight}`}</TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {documentToReactComponents(description)}
           </Grid>
           <Grid item className={classes.gridColumn} xs={12} md={6}>
-            {artItem.fields.images.map(({ fields: { file, title } }) => (
+            {images.map(({ fields: { file, title } }) => (
               <Image
                 src={file.url.replace("//", "https://") + `?w=600&fm=webp`}
                 width={file.details.image.width}
