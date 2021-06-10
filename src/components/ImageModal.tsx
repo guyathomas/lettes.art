@@ -66,7 +66,6 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
       mediumSurface,
       mediumPaint,
       forSale,
-      dateCompleted,
       artHeight,
       artWidth,
       description,

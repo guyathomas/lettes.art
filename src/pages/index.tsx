@@ -31,30 +31,32 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
     },
   },
   imageListItem: {
-    'transition': 'transform 100ms ease-in-out',
-    'cursor': 'pointer',
-    '&:hover': {
-      transform: 'scale(1.01)',
-      zIndex: 2
-    }
-  }
+    transition: "transform 100ms ease-in-out",
+    cursor: "pointer",
+    "&:hover": {
+      transform: "scale(1.01)",
+      zIndex: 2,
+    },
+  },
 }));
 
 export const getStaticProps = async () => {
   const entries = await client.getEntries<ArtEntry>();
   return {
     props: {
-      artwork: entries,
+      artwork: entries.items.sort((a, b) =>
+        a.fields.dateCompleted > b.fields.dateCompleted ? -1 : 1
+      ),
     },
     revalidate: ONE_DAY,
   };
 };
 interface IndexProps {
-  artwork: EntryCollection<ArtEntry>;
+  artwork: EntryCollection<ArtEntry>["items"];
 }
 
 const Index: React.FC<IndexProps> = ({ artwork }) => {
-  const hasArtwork = artwork?.items?.length;
+  const hasArtwork = artwork?.length;
   const [activeArtItem, setActiveArtItem] = React.useState<ArtItem>();
   const classes = useImageListStyles();
   if (!hasArtwork) {
@@ -73,13 +75,13 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
         }}
       />
       <ImageList gap={20} className={classes.imageList}>
-        {artwork.items.map((item) => {
+        {artwork.map((item) => {
           if (!item.fields.images.length) {
-            console.warn(`Artwork: ${item.fields.title} has no images`)
-            return null
+            console.warn(`Artwork: ${item.fields.title} has no images`);
+            return null;
           } else if (!item.fields.images[0].fields) {
-            console.warn(`Artwork: ${item.fields.title} has no image fields`)
-            return null
+            console.warn(`Artwork: ${item.fields.title} has no image fields`);
+            return null;
           }
           const { file } = item.fields.images[0].fields;
           return (
