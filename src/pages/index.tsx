@@ -74,6 +74,13 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       />
       <ImageList gap={20} className={classes.imageList}>
         {artwork.items.map((item) => {
+          if (!item.fields.images.length) {
+            console.warn(`Artwork: ${item.fields.title} has no images`)
+            return null
+          } else if (!item.fields.images[0].fields) {
+            console.warn(`Artwork: ${item.fields.title} has no image fields`)
+            return null
+          }
           const { title, file } = item.fields.images[0].fields;
           return (
             <ImageListItem
