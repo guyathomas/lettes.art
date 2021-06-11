@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import styled from "@emotion/styled";
 import { makeStyles } from "@material-ui/styles";
+import FaceIcon from '@material-ui/icons/Face';
 
 const useHeaderStyles = makeStyles((theme: Theme) => ({
   toolbar: {
@@ -60,7 +61,7 @@ const Header: FC = () => {
         }}
       >
         <Link href="/about">
-          <HomeLink>About</HomeLink>
+          <HomeLink><FaceIcon /></HomeLink>
         </Link>
       </Typography>
     </Toolbar>
