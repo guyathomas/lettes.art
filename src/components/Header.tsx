@@ -1,9 +1,24 @@
 import { FC } from "react";
-import { Toolbar, Typography } from "@material-ui/core";
+import { Toolbar, Typography, Theme } from "@material-ui/core";
 import Link from "next/link";
 
 import styled from "@emotion/styled";
+import { makeStyles } from "@material-ui/styles";
 
+const useHeaderStyles = makeStyles((theme: Theme) => ({
+  toolbar: {
+    paddingLeft: "0 !important",
+    paddingRight: "0 !important",
+    [theme.breakpoints.down("md")]: {
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(3),
+    },
+    [theme.breakpoints.up("md")]: {
+      paddingTop: theme.spacing(9),
+      paddingBottom: theme.spacing(9),
+    },
+  },
+}));
 const HomeLink = styled.a`
   text-decoration: none;
   cursor: pointer;
@@ -18,20 +33,13 @@ const HomeLink = styled.a`
 `;
 
 const Header: FC = () => {
+  const classes = useHeaderStyles();
   return (
-    <Toolbar
-      sx={{
-        paddingTop: 9,
-        paddingBottom: 9,
-        paddingLeft: '0 !important',
-        paddingRight: '0 !important',
-      }}
-    >
+    <Toolbar className={classes.toolbar}>
       <Typography
         variant="h4"
-
         sx={{
-          textTransform: 'uppercase',
+          textTransform: "uppercase",
           ":hover": {
             color: "primary.main",
           },
@@ -44,8 +52,8 @@ const Header: FC = () => {
       <Typography
         variant="h6"
         sx={{
-          marginLeft: 'auto',
-          textTransform: 'uppercase',
+          marginLeft: "auto",
+          textTransform: "uppercase",
           ":hover": {
             color: "primary.main",
           },

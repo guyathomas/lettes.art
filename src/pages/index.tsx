@@ -187,9 +187,12 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           </ToggleButtonGroup>
         </Grid>
       </Grid>
-      <Typography mt={2} variant="h6">
-        {`Showing ${filteredArtwork.length} of ${artwork.length} results`}
-      </Typography>
+      {activeFilters !== initialFilterState && (
+        <Typography mt={2} variant="body1">
+          {`Showing ${filteredArtwork.length} of ${artwork.length} results`}
+        </Typography>
+      )}
+
       <ImageList gap={20} className={classes.imageList}>
         {filteredArtwork.map((item) => {
           if (!item.fields.images.length) {
