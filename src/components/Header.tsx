@@ -41,6 +41,20 @@ const Header: FC = () => {
           <HomeLink>Lettes.art</HomeLink>
         </Link>
       </Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          marginLeft: 'auto',
+          textTransform: 'uppercase',
+          ":hover": {
+            color: "primary.main",
+          },
+        }}
+      >
+        <Link href="/about">
+          <HomeLink>About</HomeLink>
+        </Link>
+      </Typography>
     </Toolbar>
   );
 };
