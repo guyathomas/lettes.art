@@ -31,6 +31,14 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     maxWidth: theme.breakpoints.values.md,
     maxHeight: "100%",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.down("md")]: {
+      height: "100vh",
+    },
   },
   closeButton: {
     position: "absolute",
@@ -44,7 +52,6 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
   },
   gridContainer: {
     [theme.breakpoints.down("md")]: {
-      maxHeight: "100vh",
       overflowY: "scroll",
     },
   },
@@ -76,16 +83,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
   } = artItem;
   return (
     <Modal open={Boolean(artItem)} onClose={onClose}>
-      <Box
-        className={classes.box}
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          backgroundColor: "background.paper",
-        }}
-      >
+      <Box className={classes.box}>
         <Button size="large" onClick={onClose} className={classes.closeButton}>
           <CloseIcon fontSize="large" />
         </Button>
@@ -119,7 +117,8 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                         Price
                       </TableCell>
                       <TableCell>
-                        ${price}{" - Inquire "}
+                        ${price}
+                        {" - Inquire "}
                         <Link
                           href={`mailto:barlow.collette@gmail.com?&subject=Purchase Inquiry: ${title}&body=I'm interested in this artwork%0A%0A${images[0].fields.file.url.replace(
                             "//",
