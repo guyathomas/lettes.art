@@ -15,6 +15,7 @@ import { EntryCollection } from "contentful";
 import { ArtItem, ArtEntry, MediumSurface, MediumPaint } from "types";
 import ImageModal from "components/ImageModal";
 import intersection from "lodash/intersection";
+import { useRouter } from "next/router";
 const ONE_DAY = 60 * 60 * 24;
 
 const client = contentful.createClient({
@@ -73,10 +74,28 @@ const initialFilterState: Filters = {
 
 const Index: React.FC<IndexProps> = ({ artwork }) => {
   const hasArtwork = artwork?.length;
-  const [activeArtItem, setActiveArtItem] = React.useState<ArtItem>();
+  const classes = useImageListStyles();
+  const router = useRouter();
+  const {
+    query: { artworkId },
+  } = router;
   const [activeFilters, setActiveFilters] =
     React.useState<Filters>(initialFilterState);
-  const classes = useImageListStyles();
+
+  const activeArtItem: ArtItem | undefined = React.useMemo(
+    () => artworkId && artwork.find((a) => a.sys.id === artworkId),
+    [artworkId]
+  );
+  const setActiveArtItem = (artworkId?: string) => {
+    router.replace(
+      {
+        pathname: "/",
+        query: artworkId ? { artworkId } : {},
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
   if (!hasArtwork) {
     return (
       <Typography variant="h2" textAlign="center" marginTop={5}>
@@ -117,7 +136,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       <ImageModal
         artItem={activeArtItem}
         onClose={() => {
-          setActiveArtItem(undefined);
+          setActiveArtItem();
         }}
       />
       <Grid container gap={2}>
@@ -185,7 +204,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             <ImageListItem
               key={item.sys.id}
               onClick={() => {
-                setActiveArtItem(item);
+                setActiveArtItem(item.sys.id);
               }}
               className={classes.imageListItem}
             >

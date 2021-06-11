@@ -36,8 +36,11 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: theme.palette.background.paper,
+  },
+  boxContent: {
     [theme.breakpoints.down("md")]: {
       height: "100vh",
+      overflowY: "scroll",
     },
   },
   closeButton: {
@@ -45,14 +48,10 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     top: 0,
     right: 0,
     zIndex: 1,
+    borderRadius: 0,
     backgroundColor: theme.palette.background.paper,
     "&:hover": {
       backgroundColor: theme.palette.background.paper,
-    },
-  },
-  gridContainer: {
-    [theme.breakpoints.down("md")]: {
-      overflowY: "scroll",
     },
   },
   gridColumn: {
@@ -87,82 +86,84 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
         <Button size="large" onClick={onClose} className={classes.closeButton}>
           <CloseIcon fontSize="large" />
         </Button>
-        <Grid container className={classes.gridContainer}>
-          <Grid item className={classes.gridColumn} xs={12} md={6} p={2}>
-            <Typography variant="h4" marginRight={1} marginBottom={2}>
-              {title}
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableBody>
-                  {mediumPaint && mediumSurface && (
-                    <TableRow>
-                      <TableCell>Medium</TableCell>
-                      <TableCell component="th" scope="row">
-                        {`${mediumPaint.join(", ")} on ${mediumSurface.join(
-                          ", "
-                        )}`}
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  <TableRow>
-                    <TableCell component="th" scope="row">
-                      For Sale
-                    </TableCell>
-                    <TableCell>{forSale ? "Yes" : "No"}</TableCell>
-                  </TableRow>
-                  {forSale && price && (
+        <Box className={classes.boxContent}>
+          <Grid container>
+            <Grid item className={classes.gridColumn} xs={12} md={6} p={2}>
+              <Typography variant="h4" marginRight={1} marginBottom={2}>
+                {title}
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableBody>
+                    {mediumPaint && mediumSurface && (
+                      <TableRow>
+                        <TableCell>Medium</TableCell>
+                        <TableCell component="th" scope="row">
+                          {`${mediumPaint.join(", ")} on ${mediumSurface.join(
+                            ", "
+                          )}`}
+                        </TableCell>
+                      </TableRow>
+                    )}
                     <TableRow>
                       <TableCell component="th" scope="row">
-                        Price
-                      </TableCell>
-                      <TableCell>
-                        ${price}
-                        {" - Inquire "}
-                        <Link
-                          href={`mailto:barlow.collette@gmail.com?&subject=Purchase Inquiry: ${title}&body=I'm interested in this artwork%0A%0A${images[0].fields.file.url.replace(
-                            "//",
-                            "https://"
-                          )}%0A%0A`}
-                        >
-                          barlow.collette@gmail.com
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {typeof isFramed === "boolean" && (
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        Is Framed
+                        For Sale
                       </TableCell>
                       <TableCell>{forSale ? "Yes" : "No"}</TableCell>
                     </TableRow>
-                  )}
-                  {artHeight && artWidth && (
-                    <TableRow>
-                      <TableCell component="th" scope="row">
-                        Dimensions
-                      </TableCell>
-                      <TableCell>{`${artWidth} x ${artHeight}`}</TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                    {forSale && price && (
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          Price
+                        </TableCell>
+                        <TableCell>
+                          ${price}
+                          {" - Inquire "}
+                          <Link
+                            href={`mailto:barlow.collette@gmail.com?&subject=Purchase Inquiry: ${title}&body=I'm interested in this artwork%0A%0A${images[0].fields.file.url.replace(
+                              "//",
+                              "https://"
+                            )}%0A%0A`}
+                          >
+                            barlow.collette@gmail.com
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    {typeof isFramed === "boolean" && (
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          Is Framed
+                        </TableCell>
+                        <TableCell>{forSale ? "Yes" : "No"}</TableCell>
+                      </TableRow>
+                    )}
+                    {artHeight && artWidth && (
+                      <TableRow>
+                        <TableCell component="th" scope="row">
+                          Dimensions
+                        </TableCell>
+                        <TableCell>{`${artWidth} x ${artHeight}`}</TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
 
-            {documentToReactComponents(description)}
+              {documentToReactComponents(description)}
+            </Grid>
+            <Grid item className={classes.gridColumn} xs={12} md={6}>
+              {images.map(({ fields: { file, title } }) => (
+                <Image
+                  src={file.url.replace("//", "https://") + `?w=600&fm=webp`}
+                  width={file.details.image.width}
+                  height={file.details.image.height}
+                  alt={title}
+                />
+              ))}
+            </Grid>
           </Grid>
-          <Grid item className={classes.gridColumn} xs={12} md={6}>
-            {images.map(({ fields: { file, title } }) => (
-              <Image
-                src={file.url.replace("//", "https://") + `?w=600&fm=webp`}
-                width={file.details.image.width}
-                height={file.details.image.height}
-                alt={title}
-              />
-            ))}
-          </Grid>
-        </Grid>
+        </Box>
       </Box>
     </Modal>
   );
