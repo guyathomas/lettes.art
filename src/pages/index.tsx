@@ -43,6 +43,11 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
       zIndex: 2,
     },
   },
+  toggleButton: {
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(1)
+    },
+  },
 }));
 
 export const getStaticProps = async () => {
@@ -150,11 +155,11 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }));
             }}
           >
-            <ToggleButton value="Canvas">Canvas</ToggleButton>
-            <ToggleButton value="Watercolor Paper ( 300gsm )">
+            <ToggleButton className={classes.toggleButton} value="Canvas">Canvas</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Watercolor Paper ( 300gsm )">
               300gsm Paper
             </ToggleButton>
-            <ToggleButton value="Sketch Paper">Sketch Paper</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Sketch Paper">Sketch Paper</ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         <Grid item>
@@ -167,9 +172,9 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }));
             }}
           >
-            <ToggleButton value="Acrylic">Acrylic</ToggleButton>
-            <ToggleButton value="Graphite">Graphite</ToggleButton>
-            <ToggleButton value="Watercolour">Watercolour</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Acrylic">Acrylic</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Graphite">Graphite</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Watercolour">Watercolour</ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         <Grid item>
@@ -182,8 +187,8 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }));
             }}
           >
-            <ToggleButton value="true">For Sale</ToggleButton>
-            <ToggleButton value="false">Sold</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="true">For Sale</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="false">Sold</ToggleButton>
           </ToggleButtonGroup>
         </Grid>
       </Grid>
