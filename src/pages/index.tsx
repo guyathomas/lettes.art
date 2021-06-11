@@ -45,7 +45,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   },
   toggleButton: {
     [theme.breakpoints.down("md")]: {
-      padding: theme.spacing(1)
+      padding: theme.spacing(1),
     },
   },
 }));
@@ -63,6 +63,7 @@ export const getStaticProps = async () => {
 };
 interface IndexProps {
   artwork: EntryCollection<ArtEntry>["items"];
+  initialSelectedArtwork?: string;
 }
 type BooleanString = "false" | "true";
 interface Filters {
@@ -136,6 +137,10 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       const artMatchesActiveFilter = activeFilters.forSale.includes(forSale);
       return artMatchesActiveFilter;
     });
+  console.log(
+    "zzz",
+    activeArtItem?.fields?.images?.[0].fields.file.url.replace("//", `https://`)
+  );
   return (
     <>
       <ImageModal
@@ -155,11 +160,18 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }));
             }}
           >
-            <ToggleButton className={classes.toggleButton} value="Canvas">Canvas</ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="Watercolor Paper ( 300gsm )">
+            <ToggleButton className={classes.toggleButton} value="Canvas">
+              Canvas
+            </ToggleButton>
+            <ToggleButton
+              className={classes.toggleButton}
+              value="Watercolor Paper ( 300gsm )"
+            >
               300gsm Paper
             </ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="Sketch Paper">Sketch Paper</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Sketch Paper">
+              Sketch Paper
+            </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         <Grid item>
@@ -172,9 +184,15 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }));
             }}
           >
-            <ToggleButton className={classes.toggleButton} value="Acrylic">Acrylic</ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="Graphite">Graphite</ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="Watercolour">Watercolour</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Acrylic">
+              Acrylic
+            </ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Graphite">
+              Graphite
+            </ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="Watercolour">
+              Watercolour
+            </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         <Grid item>
@@ -187,8 +205,12 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }));
             }}
           >
-            <ToggleButton className={classes.toggleButton} value="true">For Sale</ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="false">Sold</ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="true">
+              For Sale
+            </ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="false">
+              Sold
+            </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
       </Grid>
