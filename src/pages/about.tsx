@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Grid } from "@material-ui/core";
 import styled from "@emotion/styled";
+import { Link } from "@material-ui/core";
 
 const AboutImage = styled.img`
   width: 100%;
@@ -15,11 +16,14 @@ const About: React.FC = () => (
           Victoria. The mediums I like to use are Graphite, Watercolour and
           Acrylic.
         </Typography>
-        <Typography marginTop={2} variant="body1">
+        <Typography marginTop={2} marginBottom={2} variant="body1">
           My work has been displayed in cafe's, stores and local markets. I also
           create customised pieces for clients and more than happy to discuss
           creating the perfect piece for you.
         </Typography>
+        <Link href={`mailto:barlow.collette@gmail.com`}>
+          barlow.collette@gmail.com
+        </Link>
       </Grid>
       <Grid item md={6} xs={12}>
         <AboutImage
