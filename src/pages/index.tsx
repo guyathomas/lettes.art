@@ -65,14 +65,17 @@ interface Filters {
   forSale: BooleanString[];
 }
 
+const initialFilterState: Filters = {
+  mediumSurface: [],
+  mediumPaint: [],
+  forSale: [],
+};
+
 const Index: React.FC<IndexProps> = ({ artwork }) => {
   const hasArtwork = artwork?.length;
   const [activeArtItem, setActiveArtItem] = React.useState<ArtItem>();
-  const [activeFilters, setActiveFilters] = React.useState<Filters>({
-    mediumSurface: [],
-    mediumPaint: [],
-    forSale: [],
-  });
+  const [activeFilters, setActiveFilters] =
+    React.useState<Filters>(initialFilterState);
   const classes = useImageListStyles();
   if (!hasArtwork) {
     return (
@@ -165,7 +168,9 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           </ToggleButtonGroup>
         </Grid>
       </Grid>
-
+      <Typography mt={2} variant="h6">
+        {`Showing ${filteredArtwork.length} of ${artwork.length} results`}
+      </Typography>
       <ImageList gap={20} className={classes.imageList}>
         {filteredArtwork.map((item) => {
           if (!item.fields.images.length) {
