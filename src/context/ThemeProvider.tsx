@@ -11,7 +11,8 @@ const ThemeProvider: React.FC = ({ children }) => {
     () =>
       createTheme({
         palette: {
-          mode: prefersDarkMode ? "dark" : "light",
+          mode: "dark",
+          // mode: prefersDarkMode ? "dark" : "light",
         },
       }),
     [prefersDarkMode]
