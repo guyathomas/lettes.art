@@ -11,15 +11,16 @@ export type ImageEntry = {
     contentType: string; // 'image/jpeg'
   };
 };
-
+export type MediumSurface = 'Canvas' | 'Sketch Paper' | 'Watercolor Paper ( 300gsm )';
+export type MediumPaint = 'Acrylic' | 'Graphite' | 'Watercolour';
 export interface ArtEntry {
   title: string;
   images: EntryCollection<ImageEntry>["items"];
   isFramed: boolean;
-  mediumSurface: ('Canvas' | 'Sketch Paper' | 'Watercolour Paper ( 300gsm )')[];
-  mediumPaint: ('Acrylic' | 'Graphite' | 'Watercolour')[]
+  mediumSurface: MediumSurface[];
+  mediumPaint: MediumPaint[]
   forSale?: boolean;
-  dateCompleted: any; // TODO: Not sure what format
+  dateCompleted: string; // ISO-8601
   artHeight: number;
   artWidth: number;
   description: Document;

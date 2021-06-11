@@ -5,12 +5,16 @@ import {
   ImageListItem,
   Typography,
   Theme,
+  ToggleButton,
+  ToggleButtonGroup,
+  Grid,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as contentful from "contentful";
 import { EntryCollection } from "contentful";
-import { ArtItem, ArtEntry } from "types";
+import { ArtItem, ArtEntry, MediumSurface, MediumPaint } from "types";
 import ImageModal from "components/ImageModal";
+import intersection from "lodash/intersection";
 const ONE_DAY = 60 * 60 * 24;
 
 const client = contentful.createClient({
@@ -54,10 +58,21 @@ export const getStaticProps = async () => {
 interface IndexProps {
   artwork: EntryCollection<ArtEntry>["items"];
 }
+type BooleanString = "false" | "true";
+interface Filters {
+  mediumSurface: MediumSurface[];
+  mediumPaint: MediumPaint[];
+  forSale: BooleanString[];
+}
 
 const Index: React.FC<IndexProps> = ({ artwork }) => {
   const hasArtwork = artwork?.length;
   const [activeArtItem, setActiveArtItem] = React.useState<ArtItem>();
+  const [activeFilters, setActiveFilters] = React.useState<Filters>({
+    mediumSurface: [],
+    mediumPaint: [],
+    forSale: [],
+  });
   const classes = useImageListStyles();
   if (!hasArtwork) {
     return (
@@ -66,6 +81,34 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       </Typography>
     );
   }
+  const filteredArtwork = artwork
+    .filter((art) => {
+      const isFilterApplied = activeFilters.mediumSurface.length;
+      const artMatchesActiveFilter = intersection(
+        activeFilters.mediumSurface,
+        art.fields.mediumSurface
+      );
+      return !isFilterApplied || artMatchesActiveFilter.length;
+    })
+    .filter((art) => {
+      const isFilterApplied = activeFilters.mediumPaint.length;
+      const artMatchesActiveFilter = intersection(
+        activeFilters.mediumPaint,
+        art.fields.mediumPaint
+      );
+      return !isFilterApplied || artMatchesActiveFilter.length;
+    })
+    .filter((art) => {
+      const neitherSelected = activeFilters.forSale.length === 0;
+      const bothSelected = activeFilters.forSale.length === 2;
+      const applyNoFiler = neitherSelected || bothSelected;
+      if (applyNoFiler) return true;
+
+      const forSale = (art.fields.forSale?.toString() ||
+        "false") as BooleanString;
+      const artMatchesActiveFilter = activeFilters.forSale.includes(forSale);
+      return artMatchesActiveFilter;
+    });
   return (
     <>
       <ImageModal
@@ -74,8 +117,57 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           setActiveArtItem(undefined);
         }}
       />
+      <Grid container gap={2}>
+        <Grid item>
+          <ToggleButtonGroup
+            value={activeFilters.mediumSurface}
+            onChange={(_, mediumSurface) => {
+              setActiveFilters((currentFilters) => ({
+                ...currentFilters,
+                mediumSurface,
+              }));
+            }}
+          >
+            <ToggleButton value="Canvas">Canvas</ToggleButton>
+            <ToggleButton value="Watercolor Paper ( 300gsm )">
+              300gsm Paper
+            </ToggleButton>
+            <ToggleButton value="Sketch Paper">Sketch Paper</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+        <Grid item>
+          <ToggleButtonGroup
+            value={activeFilters.mediumPaint}
+            onChange={(_, mediumPaint) => {
+              setActiveFilters((currentFilters) => ({
+                ...currentFilters,
+                mediumPaint,
+              }));
+            }}
+          >
+            <ToggleButton value="Acrylic">Acrylic</ToggleButton>
+            <ToggleButton value="Graphite">Graphite</ToggleButton>
+            <ToggleButton value="Watercolour">Watercolour</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+        <Grid item>
+          <ToggleButtonGroup
+            value={activeFilters.forSale}
+            onChange={(_, forSale) => {
+              setActiveFilters((currentFilters) => ({
+                ...currentFilters,
+                forSale,
+              }));
+            }}
+          >
+            <ToggleButton value="true">For Sale</ToggleButton>
+            <ToggleButton value="false">Sold</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+      </Grid>
+
       <ImageList gap={20} className={classes.imageList}>
-        {artwork.map((item) => {
+        {filteredArtwork.map((item) => {
           if (!item.fields.images.length) {
             console.warn(`Artwork: ${item.fields.title} has no images`);
             return null;
