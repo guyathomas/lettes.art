@@ -135,7 +135,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                         <TableCell component="th" scope="row">
                           Is Framed
                         </TableCell>
-                        <TableCell>{forSale ? "Yes" : "No"}</TableCell>
+                        <TableCell>{isFramed ? "Yes" : "No"}</TableCell>
                       </TableRow>
                     )}
                     {artHeight && artWidth && (
