@@ -47,7 +47,7 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "center",
     [theme.breakpoints.down("md")]: {
-      paddingBottom: theme.spacing(14)
+      paddingBottom: theme.spacing(14),
     },
   },
   closeButton: {
@@ -66,6 +66,10 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
       maxHeight: "100vh",
       overflowY: "scroll",
     },
+  },
+  fallbackImage: {
+    objectFit: "contain",
+    maxWidth: "100%",
   },
 }));
 
@@ -165,14 +169,30 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
               xs={12}
               md={6}
             >
-              {images.map(({ fields: { file, title } }) => (
-                <Image
-                  src={file.url.replace("//", "https://") + `?w=850&fm=webp`}
-                  width={file.details.image.width}
-                  height={file.details.image.height}
-                  alt={title}
-                />
-              ))}
+              {images.map(({ fields: { file, title: imageTitle } }) => {
+                const src =
+                  file.url.replace("//", "https://") + `?w=850&fm=webp`;
+                const hasImageMeta =
+                  file.details?.image?.width && file.details?.image?.height;
+                if (!hasImageMeta) {
+                  console.warn(`Artwork: ${title} is missing image dimensions`);
+                  return (
+                    <img
+                      className={classes.fallbackImage}
+                      alt={imageTitle}
+                      src={src}
+                    />
+                  );
+                }
+                return (
+                  <Image
+                    src={file.url.replace("//", "https://") + `?w=850&fm=webp`}
+                    width={file.details?.image?.width}
+                    height={file.details?.image?.height}
+                    alt={imageTitle}
+                  />
+                );
+              })}
             </Grid>
           </Grid>
         </Box>
