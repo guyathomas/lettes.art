@@ -67,13 +67,13 @@ interface IndexProps {
 }
 type BooleanString = "false" | "true";
 interface Filters {
-  mediumPaint: MediumPaint[];
-  forSale: BooleanString[];
+  mediumPaint: MediumPaint | null;
+  forSale: BooleanString | null;
 }
 
 const initialFilterState: Filters = {
-  mediumPaint: [],
-  forSale: [],
+  mediumPaint: null,
+  forSale: null,
 };
 
 const Index: React.FC<IndexProps> = ({ artwork }) => {
@@ -109,19 +109,11 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
   }
   const filteredArtwork = artwork
     .filter((art) => {
-      const isFilterApplied = activeFilters.mediumPaint.length;
-      const artMatchesActiveFilter = intersection(
-        activeFilters.mediumPaint,
-        art.fields.mediumPaint
-      );
-      return !isFilterApplied || artMatchesActiveFilter.length;
+      if (activeFilters.mediumPaint === null) return true;
+      return art.fields.mediumPaint.includes(activeFilters.mediumPaint)
     })
     .filter((art) => {
-      const neitherSelected = activeFilters.forSale.length === 0;
-      const bothSelected = activeFilters.forSale.length === 2;
-      const applyNoFiler = neitherSelected || bothSelected;
-      if (applyNoFiler) return true;
-
+      if (activeFilters.forSale === null) return true;
       const forSale = (art.fields.forSale?.toString() ||
         "false") as BooleanString;
       const artMatchesActiveFilter = activeFilters.forSale.includes(forSale);
@@ -139,6 +131,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
         <Grid item>
           <ToggleButtonGroup
             value={activeFilters.mediumPaint}
+            exclusive
             onChange={(_, mediumPaint) => {
               setActiveFilters((currentFilters) => ({
                 ...currentFilters,
@@ -160,6 +153,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
         <Grid item>
           <ToggleButtonGroup
             value={activeFilters.forSale}
+            exclusive
             onChange={(_, forSale) => {
               setActiveFilters((currentFilters) => ({
                 ...currentFilters,
