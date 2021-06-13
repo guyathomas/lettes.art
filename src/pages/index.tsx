@@ -192,6 +192,10 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             return null;
           }
           const { file } = item.fields.images[0].fields;
+          if (!file?.url) {
+            console.warn(`Artwork: ${item.fields.title} has no URL`);
+            return null;
+          }
           return (
             <ImageListItem
               key={item.sys.id}
@@ -202,9 +206,9 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             >
               <img
                 src={file.url + `?w=850&fm=webp`}
-                width={file.details.image.width}
-                height={file.details.image.height}
-                alt={item.fields.title}
+                width={file.details?.image?.width}
+                height={file.details?.image?.height}
+                alt={item.fields?.title}
                 loading="lazy"
               />
               <Box marginBottom={2.5} marginTop={0.5}>
