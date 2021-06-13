@@ -155,7 +155,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
             <Grid item className={classes.gridColumn} xs={12} md={6}>
               {images.map(({ fields: { file, title } }) => (
                 <Image
-                  src={file.url.replace("//", "https://") + `?w=600&fm=webp`}
+                  src={file.url.replace("//", "https://") + `?w=850&fm=webp`}
                   width={file.details.image.width}
                   height={file.details.image.height}
                   alt={title}

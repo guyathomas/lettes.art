@@ -12,7 +12,7 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import * as contentful from "contentful";
 import { EntryCollection } from "contentful";
-import { ArtItem, ArtEntry, MediumSurface, MediumPaint } from "types";
+import { ArtItem, ArtEntry, MediumPaint } from "types";
 import ImageModal from "components/ImageModal";
 import intersection from "lodash/intersection";
 import { useRouter } from "next/router";
@@ -67,13 +67,11 @@ interface IndexProps {
 }
 type BooleanString = "false" | "true";
 interface Filters {
-  mediumSurface: MediumSurface[];
   mediumPaint: MediumPaint[];
   forSale: BooleanString[];
 }
 
 const initialFilterState: Filters = {
-  mediumSurface: [],
   mediumPaint: [],
   forSale: [],
 };
@@ -111,14 +109,6 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
   }
   const filteredArtwork = artwork
     .filter((art) => {
-      const isFilterApplied = activeFilters.mediumSurface.length;
-      const artMatchesActiveFilter = intersection(
-        activeFilters.mediumSurface,
-        art.fields.mediumSurface
-      );
-      return !isFilterApplied || artMatchesActiveFilter.length;
-    })
-    .filter((art) => {
       const isFilterApplied = activeFilters.mediumPaint.length;
       const artMatchesActiveFilter = intersection(
         activeFilters.mediumPaint,
@@ -137,10 +127,6 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       const artMatchesActiveFilter = activeFilters.forSale.includes(forSale);
       return artMatchesActiveFilter;
     });
-  console.log(
-    "zzz",
-    activeArtItem?.fields?.images?.[0].fields.file.url.replace("//", `https://`)
-  );
   return (
     <>
       <ImageModal
@@ -150,30 +136,6 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
         }}
       />
       <Grid container gap={2}>
-        <Grid item>
-          <ToggleButtonGroup
-            value={activeFilters.mediumSurface}
-            onChange={(_, mediumSurface) => {
-              setActiveFilters((currentFilters) => ({
-                ...currentFilters,
-                mediumSurface,
-              }));
-            }}
-          >
-            <ToggleButton className={classes.toggleButton} value="Canvas">
-              Canvas
-            </ToggleButton>
-            <ToggleButton
-              className={classes.toggleButton}
-              value="Watercolor Paper ( 300gsm )"
-            >
-              300gsm Paper
-            </ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="Sketch Paper">
-              Sketch Paper
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Grid>
         <Grid item>
           <ToggleButtonGroup
             value={activeFilters.mediumPaint}
@@ -239,7 +201,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               className={classes.imageListItem}
             >
               <img
-                src={file.url + `?w=600&fm=webp`}
+                src={file.url + `?w=850&fm=webp`}
                 width={file.details.image.width}
                 height={file.details.image.height}
                 alt={item.fields.title}
