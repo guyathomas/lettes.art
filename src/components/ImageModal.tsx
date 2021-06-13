@@ -43,6 +43,13 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
       overflowY: "scroll",
     },
   },
+  imageContent: {
+    display: "flex",
+    justifyContent: "center",
+    [theme.breakpoints.down("md")]: {
+      paddingBottom: theme.spacing(14)
+    },
+  },
   closeButton: {
     position: "absolute",
     top: 0,
@@ -152,7 +159,12 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
 
               {documentToReactComponents(description)}
             </Grid>
-            <Grid item className={classes.gridColumn} xs={12} md={6}>
+            <Grid
+              item
+              className={[classes.gridColumn, classes.imageContent].join(" ")}
+              xs={12}
+              md={6}
+            >
               {images.map(({ fields: { file, title } }) => (
                 <Image
                   src={file.url.replace("//", "https://") + `?w=850&fm=webp`}
