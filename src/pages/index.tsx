@@ -190,6 +190,13 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             console.warn(`Artwork: ${item.fields.title} has no URL`);
             return null;
           }
+          const isPortrait =
+            file.details?.image?.width < file.details?.image?.height;
+          const width = isPortrait ? 600 : 750;
+          const ratio =
+            file.details?.image?.width && file.details?.image?.height
+              ? file.details?.image?.height / file.details?.image?.width
+              : 0;
           return (
             <ImageListItem
               key={item.sys.id}
@@ -199,9 +206,9 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               className={classes.imageListItem}
             >
               <img
-                src={file.url + `?w=850&fm=webp`}
-                width={file.details?.image?.width}
-                height={file.details?.image?.height}
+                src={file.url + `?w=${width}&fm=webp`}
+                width={`${width}px`}
+                height={`${width * ratio}px`}
                 alt={item.fields?.title}
                 loading="lazy"
               />

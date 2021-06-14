@@ -45,9 +45,11 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
   },
   imageContent: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     flexDirection: "column",
     [theme.breakpoints.down("md")]: {
+      justifyContent: "center",
+      flexDirection: "row",
       paddingBottom: theme.spacing(14),
     },
   },
@@ -73,7 +75,9 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     maxWidth: "100%",
   },
   imageItem: {
-    flexShrink: 0,
+    [theme.breakpoints.up("md")]: {
+      flexShrink: 0,
+    },
   },
 }));
 
@@ -192,13 +196,16 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                   );
                 }
                 return (
-                  <Image
-                    src={file.url.replace("//", "https://") + `?w=850&fm=webp`}
-                    width={file.details?.image?.width}
-                    height={file.details?.image?.height}
-                    alt={imageTitle}
-                    className={classes.imageItem}
-                  />
+                  <Box className={classes.imageItem}>
+                    <Image
+                      src={
+                        file.url.replace("//", "https://") + `?w=850&fm=webp`
+                      }
+                      width={file.details?.image?.width}
+                      height={file.details?.image?.height}
+                      alt={imageTitle}
+                    />
+                  </Box>
                 );
               })}
             </Grid>
