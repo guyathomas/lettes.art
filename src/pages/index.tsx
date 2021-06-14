@@ -192,7 +192,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           }
           const isPortrait =
             file.details?.image?.width < file.details?.image?.height;
-          const width = isPortrait ? 600 : 750;
+          const width = isPortrait ? 600 : 850;
           const ratio =
             file.details?.image?.width && file.details?.image?.height
               ? file.details?.image?.height / file.details?.image?.width
@@ -208,7 +208,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               <img
                 src={file.url + `?w=${width}&fm=webp`}
                 width={`${width}px`}
-                height={`${width * ratio}px`}
+                height={`${(width * ratio) || width}px`}
                 alt={item.fields?.title}
                 loading="lazy"
               />
