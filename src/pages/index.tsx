@@ -110,7 +110,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
   const filteredArtwork = artwork
     .filter((art) => {
       if (activeFilters.mediumPaint === null) return true;
-      return art.fields.mediumPaint.includes(activeFilters.mediumPaint)
+      return art.fields.mediumPaint.includes(activeFilters.mediumPaint);
     })
     .filter((art) => {
       if (activeFilters.forSale === null) return true;

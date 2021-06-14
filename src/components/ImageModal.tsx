@@ -29,7 +29,7 @@ interface ImageModalProps {
 const useImageModalStyles = makeStyles((theme: Theme) => ({
   box: {
     width: "100%",
-    maxWidth: theme.breakpoints.values.md,
+    maxWidth: theme.breakpoints.values.lg,
     maxHeight: "100%",
     position: "absolute",
     top: "50%",
@@ -46,6 +46,7 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
   imageContent: {
     display: "flex",
     justifyContent: "center",
+    flexDirection: "column",
     [theme.breakpoints.down("md")]: {
       paddingBottom: theme.spacing(14),
     },
@@ -70,6 +71,9 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
   fallbackImage: {
     objectFit: "contain",
     maxWidth: "100%",
+  },
+  imageItem: {
+    flexShrink: 0,
   },
 }));
 
@@ -178,7 +182,10 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                   console.warn(`Artwork: ${title} is missing image dimensions`);
                   return (
                     <img
-                      className={classes.fallbackImage}
+                      className={[
+                        classes.fallbackImage,
+                        classes.imageItem,
+                      ].join(" ")}
                       alt={imageTitle}
                       src={src}
                     />
@@ -190,6 +197,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                     width={file.details?.image?.width}
                     height={file.details?.image?.height}
                     alt={imageTitle}
+                    className={classes.imageItem}
                   />
                 );
               })}
