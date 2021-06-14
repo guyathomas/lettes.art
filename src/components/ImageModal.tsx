@@ -47,9 +47,8 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "flex-start",
     flexDirection: "column",
+    alignItems: "center",
     [theme.breakpoints.down("md")]: {
-      justifyContent: "center",
-      flexDirection: "row",
       paddingBottom: theme.spacing(14),
     },
   },
