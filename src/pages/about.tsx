@@ -2,10 +2,8 @@ import React from "react";
 import { Box, Typography, Grid } from "@material-ui/core";
 import styled from "@emotion/styled";
 import { Link } from "@material-ui/core";
+import Image from "next/image";
 
-const AboutImage = styled.img`
-  width: 100%;
-`;
 const About: React.FC = () => (
   <Box>
     <Typography variant="h5">About me</Typography>
@@ -26,8 +24,10 @@ const About: React.FC = () => (
         </Link>
       </Grid>
       <Grid item md={6} xs={12}>
-        <AboutImage
-          src={`https://scontent-sjc3-1.xx.fbcdn.net/v/t1.6435-9/132825345_10224144733789170_4843583989557150274_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=19026a&_nc_ohc=VjKsWLDNJO4AX8m7lX0&_nc_ht=scontent-sjc3-1.xx&oh=bb406ebf8fc6079f2d020754bee79ad2&oe=60C7E7E6`}
+        <Image
+          width={900}
+          height={500}
+          src={`https://res.cloudinary.com/dqvlfpaev/image/upload/v1623735757/131973728_3778949128834041_4617868599977320925_n_nslcyc.jpg`}
         />
       </Grid>
     </Grid>
