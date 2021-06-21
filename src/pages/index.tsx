@@ -25,6 +25,8 @@ const client = contentful.createClient({
 
 const useImageListStyles = makeStyles((theme: Theme) => ({
   imageList: {
+      padding: 10,
+      margin: -10,
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: "repeat(1, 1fr) !important",
     },
@@ -127,7 +129,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           setActiveArtItem();
         }}
       />
-      <Grid container gap={2}>
+      <Grid container gap={2} mb={1}>
         <Grid item>
           <ToggleButtonGroup
             value={activeFilters.mediumPaint}
