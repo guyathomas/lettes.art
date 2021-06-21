@@ -1,9 +1,8 @@
-const withTM = require("next-transpile-modules")(["@material-ui/icons"]);
 const contentfulCDN = "images.ctfassets.net";
 const cloudinaryCDN = "res.cloudinary.com"
 
-module.exports = withTM({
+module.exports = {
   images: {
     domains: [contentfulCDN,  cloudinaryCDN],
   },
-});
+}
