@@ -177,10 +177,17 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
               md={6}
             >
               {images.map(({ fields: { file, title: imageTitle } }) => {
-                const src =
-                  file.url.replace("//", "https://") + `?w=850&fm=webp`;
+                const src = file.url.replace("//", "https://") + `?w=850`;
                 const hasImageMeta =
-                  file.details?.image?.width && file.details?.image?.height;
+                file.details?.image?.width && file.details?.image?.height;
+                const isVideo = file.contentType.startsWith('video/')
+                
+                if (isVideo) return (
+                  <video autoPlay loop>
+                    <source src={src} />
+                  </video>
+                )
+                const imageSrc = src + `&fm=webp`;
                 if (!hasImageMeta) {
                   console.warn(`Artwork: ${title} is missing image dimensions`);
                   return (
@@ -190,16 +197,14 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                         classes.imageItem,
                       ].join(" ")}
                       alt={imageTitle}
-                      src={src}
+                      src={imageSrc}
                     />
                   );
                 }
                 return (
                   <Box className={classes.imageItem}>
                     <Image
-                      src={
-                        file.url.replace("//", "https://") + `?w=850&fm=webp`
-                      }
+                      src={imageSrc}
                       width={file.details?.image?.width}
                       height={file.details?.image?.height}
                       alt={imageTitle}
