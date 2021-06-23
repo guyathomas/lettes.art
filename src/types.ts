@@ -1,4 +1,4 @@
-import { EntryCollection } from "contentful";
+import { EntryCollection, Entry } from "contentful";
 import { Document } from "@contentful/rich-text-types"
 
 export type ImageEntry = {
@@ -16,6 +16,7 @@ export type MediumPaint = 'Acrylic' | 'Graphite' | 'Watercolour';
 export interface ArtEntry {
   title: string;
   images: EntryCollection<ImageEntry>["items"];
+  previewImage?: Entry<ImageEntry>
   isFramed: boolean;
   mediumSurface: MediumSurface[];
   mediumPaint: MediumPaint[]

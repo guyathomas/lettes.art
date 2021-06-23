@@ -187,7 +187,9 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             console.warn(`Artwork: ${item.fields.title} has no image fields`);
             return null;
           }
-          const { file } = item.fields.images[0].fields;
+          const file =
+            item.fields?.previewImage?.fields?.file ||
+            item.fields.images[0].fields.file;
           if (!file?.url) {
             console.warn(`Artwork: ${item.fields.title} has no URL`);
             return null;
