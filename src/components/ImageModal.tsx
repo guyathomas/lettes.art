@@ -73,6 +73,9 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     objectFit: "contain",
     maxWidth: "100%",
   },
+  video: {
+    maxWidth: '100%',
+  },
   imageItem: {
     [theme.breakpoints.up("md")]: {
       flexShrink: 0,
@@ -183,7 +186,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                 const isVideo = file.contentType.startsWith('video/')
                 
                 if (isVideo) return (
-                  <video autoPlay loop>
+                  <video autoPlay loop className={classes.video}>
                     <source src={src} />
                   </video>
                 )
