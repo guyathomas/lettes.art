@@ -74,7 +74,7 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     maxWidth: "100%",
   },
   video: {
-    maxWidth: '100%',
+    maxWidth: "100%",
   },
   imageItem: {
     [theme.breakpoints.up("md")]: {
@@ -182,14 +182,15 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
               {images.map(({ fields: { file, title: imageTitle } }) => {
                 const src = file.url.replace("//", "https://") + `?w=850`;
                 const hasImageMeta =
-                file.details?.image?.width && file.details?.image?.height;
-                const isVideo = file.contentType.startsWith('video/')
-                
-                if (isVideo) return (
-                  <video autoPlay loop className={classes.video}>
-                    <source src={src} />
-                  </video>
-                )
+                  file.details?.image?.width && file.details?.image?.height;
+                const isVideo = file.contentType.startsWith("video/");
+
+                if (isVideo)
+                  return (
+                    <video autoPlay loop className={classes.video}>
+                      <source src={src} />
+                    </video>
+                  );
                 const imageSrc = src + `&fm=webp`;
                 if (!hasImageMeta) {
                   console.warn(`Artwork: ${title} is missing image dimensions`);

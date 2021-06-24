@@ -11,4 +11,4 @@ const ButtonLink: React.FC<LinkProps> = ({ children, href, ...props }) => (
   </Link>
 );
 
-export default ButtonLink
+export default ButtonLink;

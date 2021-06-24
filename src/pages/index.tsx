@@ -25,8 +25,8 @@ const client = contentful.createClient({
 
 const useImageListStyles = makeStyles((theme: Theme) => ({
   imageList: {
-      padding: 10,
-      margin: -10,
+    padding: 10,
+    margin: -10,
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: "repeat(1, 1fr) !important",
     },
@@ -212,7 +212,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               <img
                 src={file.url + `?w=${width}&fm=webp`}
                 width={`${width}px`}
-                height={`${(width * ratio) || width}px`}
+                height={`${width * ratio || width}px`}
                 alt={item.fields?.title}
                 loading="lazy"
               />
