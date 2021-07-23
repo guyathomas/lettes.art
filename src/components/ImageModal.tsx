@@ -164,7 +164,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, artItem }) => {
                         <TableCell component="th" scope="row">
                           Dimensions
                         </TableCell>
-                        <TableCell>{`${artWidth} x ${artHeight}`}</TableCell>
+                        <TableCell>{`${artWidth}cm x ${artHeight}cm`}</TableCell>
                       </TableRow>
                     )}
                   </TableBody>
