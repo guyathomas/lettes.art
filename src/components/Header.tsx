@@ -5,6 +5,7 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import { makeStyles } from "@material-ui/styles";
 import FaceIcon from "@material-ui/icons/Face";
+import Box from "@material-ui/core/Box";
 
 const useHeaderStyles = makeStyles((theme: Theme) => ({
   toolbar: {
@@ -20,13 +21,22 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
+
 const HomeLink = styled.a`
   text-decoration: none;
   cursor: pointer;
   color: inherit;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  &:first-of-type {
+    margin-left: 0;
+  }
+  &:last-of-type {
+    margin-right: 0;
+  }
   &:hover {
     text-decoration: none;
-    color: palette.primary.light;
+    color: lightblue;
   }
   &:active {
     text-decoration: none;
@@ -35,15 +45,13 @@ const HomeLink = styled.a`
 
 const Header: FC = () => {
   const classes = useHeaderStyles();
+
   return (
     <Toolbar className={classes.toolbar}>
       <Typography
         variant="h4"
         sx={{
           textTransform: "uppercase",
-          ":hover": {
-            color: "primary.main",
-          },
         }}
       >
         <Link href="/">
@@ -55,16 +63,16 @@ const Header: FC = () => {
         sx={{
           marginLeft: "auto",
           textTransform: "uppercase",
-          ":hover": {
-            color: "primary.main",
-          },
         }}
       >
-        <Link href="/about">
-          <HomeLink>
-            <FaceIcon />
-          </HomeLink>
-        </Link>
+        <Box>
+          <HomeLink href="https://store.lettes.art">Store</HomeLink>|
+          <Link href="/about">
+            <HomeLink>
+              <FaceIcon style={{ position: "relative", top: "4px" }} />
+            </HomeLink>
+          </Link>
+        </Box>
       </Typography>
     </Toolbar>
   );
