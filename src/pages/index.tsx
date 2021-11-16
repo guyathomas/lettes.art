@@ -11,8 +11,8 @@ import {
   MenuItem,
   Select,
   InputLabel,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import * as contentful from "contentful";
 import { EntryCollection } from "contentful";
 import { ArtItem, ArtEntry, MediumPaint, Category } from "types";
@@ -29,7 +29,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   imageList: {
     padding: 10,
     margin: -10,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('md')]: {
       gridTemplateColumns: "repeat(1, 1fr) !important",
     },
     [theme.breakpoints.up("sm")]: {
@@ -48,7 +48,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
     },
   },
   toggleButton: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('lg')]: {
       padding: theme.spacing(1),
     },
   },

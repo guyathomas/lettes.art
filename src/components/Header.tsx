@@ -1,17 +1,17 @@
 import { FC } from "react";
-import { Toolbar, Typography, Theme } from "@material-ui/core";
+import { Toolbar, Typography, Theme } from "@mui/material";
 import Link from "next/link";
 
 import styled from "@emotion/styled";
-import { makeStyles } from "@material-ui/styles";
-import FaceIcon from "@material-ui/icons/Face";
-import Box from "@material-ui/core/Box";
+import { makeStyles } from "@mui/styles";
+import FaceIcon from "@mui/icons-material/Face";
+import Box from "@mui/material/Box";
 
 const useHeaderStyles = makeStyles((theme: Theme) => ({
   toolbar: {
     paddingLeft: "0 !important",
     paddingRight: "0 !important",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('lg')]: {
       paddingTop: theme.spacing(3),
       paddingBottom: theme.spacing(3),
     },

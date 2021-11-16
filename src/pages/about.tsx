@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Typography, Grid } from "@material-ui/core";
-import { Link } from "@material-ui/core";
+import { Box, Typography, Grid } from "@mui/material";
+import { Link } from "@mui/material";
 import Image from "next/image";
 
 const bioParts = [

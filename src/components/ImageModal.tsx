@@ -13,10 +13,10 @@ import {
   TableBody,
   Paper,
   Link,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { makeStyles } from "@material-ui/styles";
-import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles } from "@mui/styles";
+import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { ArtItem } from "types";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -38,7 +38,7 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   boxContent: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('lg')]: {
       height: "100vh",
       overflowY: "scroll",
     },
@@ -48,7 +48,7 @@ const useImageModalStyles = makeStyles((theme: Theme) => ({
     justifyContent: "flex-start",
     flexDirection: "column",
     alignItems: "center",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('lg')]: {
       paddingBottom: theme.spacing(14),
     },
   },

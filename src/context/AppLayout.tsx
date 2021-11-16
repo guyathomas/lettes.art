@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import LayoutForPath, { LayoutSpec } from "@guyathomas/layout-for-path";
 
 import Header from "components/Header";
-import { Container } from "@material-ui/core";
+import { Container } from "@mui/material";
 
 const MainLayout: React.FC = ({ children }) => (
   <Container>
