@@ -32,7 +32,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   imageList: {
     padding: 10,
     margin: -10,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: "repeat(1, 1fr) !important",
     },
     [theme.breakpoints.up("sm")]: {
@@ -45,9 +45,19 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   imageListItem: {
     transition: "transform 100ms ease-in-out",
     cursor: "pointer",
+    maxWidth: 410,
+    margin: "0 auto",
     "&:hover": {
       transform: "scale(1.01)",
       zIndex: 2,
+    },
+  },
+  resultSummary: {
+    marginTop: "1.5rem",
+    marginBottom: "0.5rem",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: 410,
+      margin: "1rem auto",
     },
   },
   toggleButton: {
@@ -233,7 +243,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
         </Grid>
       </Grid>
       {activeFilters !== initialFilterState && (
-        <Typography mt={2} variant="body1">
+        <Typography mt={2} variant="body1" className={classes.resultSummary}>
           {`Showing ${filteredArtwork.length} of ${artwork.length} results`}
         </Typography>
       )}
