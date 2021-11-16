@@ -8,13 +8,15 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Grid,
+  MenuItem,
+  Select,
+  InputLabel,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as contentful from "contentful";
 import { EntryCollection } from "contentful";
-import { ArtItem, ArtEntry, MediumPaint } from "types";
+import { ArtItem, ArtEntry, MediumPaint, Category } from "types";
 import ImageModal from "components/ImageModal";
-import intersection from "lodash/intersection";
 import { useRouter } from "next/router";
 const ONE_DAY = 60 * 60 * 24;
 
@@ -68,14 +70,17 @@ interface IndexProps {
   initialSelectedArtwork?: string;
 }
 type BooleanString = "false" | "true";
+type MaybeCategory = Category | "all-categories";
 interface Filters {
   mediumPaint: MediumPaint | null;
+  category: MaybeCategory;
   forSale: BooleanString | null;
 }
 
 const initialFilterState: Filters = {
   mediumPaint: null,
   forSale: null,
+  category: "all-categories",
 };
 
 const Index: React.FC<IndexProps> = ({ artwork }) => {
@@ -120,6 +125,10 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
         "false") as BooleanString;
       const artMatchesActiveFilter = activeFilters.forSale.includes(forSale);
       return artMatchesActiveFilter;
+    })
+    .filter((art) => {
+      if (activeFilters.category === "all-categories") return true;
+      return art.fields.category === activeFilters.category;
     });
   return (
     <>
@@ -129,7 +138,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           setActiveArtItem();
         }}
       />
-      <Grid container gap={2} mb={1}>
+      <Grid container gap={2} mb={1} alignItems="center">
         <Grid item>
           <ToggleButtonGroup
             value={activeFilters.mediumPaint}
@@ -152,6 +161,32 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
+
+        <Grid item>
+          <ToggleButtonGroup
+            value={activeFilters.category}
+            exclusive
+            onChange={(_, category) => {
+              setActiveFilters((currentFilters) => ({
+                ...currentFilters,
+                category,
+              }));
+            }}
+          >
+            <ToggleButton className={classes.toggleButton} value="pet-portrait">
+              Pet Portrait
+            </ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="abstract">
+              Abstract
+            </ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="wildlife">
+              Wildlife
+            </ToggleButton>
+            <ToggleButton className={classes.toggleButton} value="portrait">
+              Portrait
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
         <Grid item>
           <ToggleButtonGroup
             value={activeFilters.forSale}
@@ -170,6 +205,29 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               Sold
             </ToggleButton>
           </ToggleButtonGroup>
+        </Grid>
+        <Grid item>
+          <InputLabel id="category-select">Category</InputLabel>
+          <Select
+            labelId="category-select"
+            value={activeFilters.category}
+            label="Category"
+            sx={{ minWidth: 120 }}
+            size="small"
+            onChange={(event) => {
+              setActiveFilters((currentFilters) => ({
+                ...currentFilters,
+                category: (event.target.value ||
+                  "all-categories") as MaybeCategory,
+              }));
+            }}
+          >
+            <MenuItem value="all-categories">All</MenuItem>
+            <MenuItem value="pet-portrait">Pet Portrait</MenuItem>
+            <MenuItem value="portrait">Portrait</MenuItem>
+            <MenuItem value="abstract">Abstract</MenuItem>
+            <MenuItem value="wildlife">Wildlife</MenuItem>
+          </Select>
         </Grid>
       </Grid>
       {activeFilters !== initialFilterState && (

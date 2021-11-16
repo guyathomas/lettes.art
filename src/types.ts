@@ -16,6 +16,7 @@ export type MediumSurface =
   | "Sketch Paper"
   | "Watercolor Paper ( 300gsm )";
 export type MediumPaint = "Acrylic" | "Graphite" | "Watercolour";
+export type Category = "pet-portrait" | "wildlife" | "abstract" | "portrait";
 export interface ArtEntry {
   title: string;
   images: EntryCollection<ImageEntry>["items"];
@@ -23,6 +24,7 @@ export interface ArtEntry {
   isFramed: boolean;
   mediumSurface: MediumSurface[];
   mediumPaint: MediumPaint[];
+  category?: Category;
   forSale?: boolean;
   dateCompleted: string; // ISO-8601
   artHeight: number;
