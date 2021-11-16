@@ -21,6 +21,8 @@ import ImageModal from "components/ImageModal";
 import { useRouter } from "next/router";
 const ONE_DAY = 60 * 60 * 24;
 
+const SIMPLE_PET_PORTRAIT = true;
+
 const client = contentful.createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
   accessToken: process.env.CONTENTFUL_DELIVERY_API_KEY,
@@ -185,28 +187,49 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
+
         <Grid item>
-          <FormControl size="small">
-            <InputLabel id="category-select">Category</InputLabel>
-            <Select
-              labelId="category-select"
+          {SIMPLE_PET_PORTRAIT ? (
+            <ToggleButtonGroup
               value={activeFilters.category}
-              label="Category"
-              sx={{ minWidth: 120 }}
-              onChange={(event) => {
+              exclusive
+              onChange={(_, category) => {
                 setActiveFilters((currentFilters) => ({
                   ...currentFilters,
-                  category: (event.target.value as MaybeCategory) || null,
+                  category,
                 }));
               }}
             >
-              <MenuItem value="all">All</MenuItem>
-              <MenuItem value="pet-portrait">Pet Portrait</MenuItem>
-              {/* <MenuItem value="portrait">Portrait</MenuItem>
-              <MenuItem value="abstract">Abstract</MenuItem>
-              <MenuItem value="wildlife">Wildlife</MenuItem> */}
-            </Select>
-          </FormControl>
+              <ToggleButton
+                className={classes.toggleButton}
+                value="pet-portrait"
+              >
+                Pet Portrait
+              </ToggleButton>
+            </ToggleButtonGroup>
+          ) : (
+            <FormControl size="small">
+              <InputLabel id="category-select">Category</InputLabel>
+              <Select
+                labelId="category-select"
+                value={activeFilters.category}
+                label="Category"
+                sx={{ minWidth: 120 }}
+                onChange={(event) => {
+                  setActiveFilters((currentFilters) => ({
+                    ...currentFilters,
+                    category: (event.target.value as MaybeCategory) || null,
+                  }));
+                }}
+              >
+                <MenuItem value="all">All</MenuItem>
+                <MenuItem value="pet-portrait">Pet Portrait</MenuItem>
+                <MenuItem value="portrait">Portrait</MenuItem>
+                <MenuItem value="abstract">Abstract</MenuItem>
+                <MenuItem value="wildlife">Wildlife</MenuItem>
+              </Select>
+            </FormControl>
+          )}
         </Grid>
       </Grid>
       {activeFilters !== initialFilterState && (
