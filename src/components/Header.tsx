@@ -11,7 +11,7 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
   toolbar: {
     paddingLeft: "0 !important",
     paddingRight: "0 !important",
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down("lg")]: {
       paddingTop: theme.spacing(3),
       paddingBottom: theme.spacing(3),
     },
@@ -69,7 +69,22 @@ const Header: FC = () => {
           {/* <HomeLink href="https://store.lettes.art">Store</HomeLink>| */}
           <Link href="/about">
             <HomeLink>
-              <FaceIcon style={{ position: "relative", top: "4px" }} />
+              <Box
+                sx={{
+                  display: { xs: "none", sm: "inline-block" },
+                  marginRight: 1,
+                }}
+              >
+                About Me
+              </Box>
+              <Box
+                sx={{
+                  display: { xs: "inline-block", sm: "none" },
+                  marginRight: 1,
+                }}
+              >
+                <FaceIcon style={{ position: "relative", top: "4px" }} />
+              </Box>
             </HomeLink>
           </Link>
         </Box>

@@ -10,6 +10,7 @@ import {
   Grid,
   MenuItem,
   Select,
+  FormControl,
   InputLabel,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -29,7 +30,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   imageList: {
     padding: 10,
     margin: -10,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       gridTemplateColumns: "repeat(1, 1fr) !important",
     },
     [theme.breakpoints.up("sm")]: {
@@ -48,7 +49,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
     },
   },
   toggleButton: {
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down("lg")]: {
       padding: theme.spacing(1),
     },
   },
@@ -70,17 +71,18 @@ interface IndexProps {
   initialSelectedArtwork?: string;
 }
 type BooleanString = "false" | "true";
-type MaybeCategory = Category | "all-categories";
 interface Filters {
   mediumPaint: MediumPaint | null;
-  category: MaybeCategory;
+  category: MaybeCategory | null;
   forSale: BooleanString | null;
 }
+
+type MaybeCategory = Category | "all";
 
 const initialFilterState: Filters = {
   mediumPaint: null,
   forSale: null,
-  category: "all-categories",
+  category: null,
 };
 
 const Index: React.FC<IndexProps> = ({ artwork }) => {
@@ -127,7 +129,9 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       return artMatchesActiveFilter;
     })
     .filter((art) => {
-      if (activeFilters.category === "all-categories") return true;
+      if (activeFilters.category === null || activeFilters.category === "all") {
+        return true;
+      }
       return art.fields.category === activeFilters.category;
     });
   return (
@@ -164,31 +168,6 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
 
         <Grid item>
           <ToggleButtonGroup
-            value={activeFilters.category}
-            exclusive
-            onChange={(_, category) => {
-              setActiveFilters((currentFilters) => ({
-                ...currentFilters,
-                category,
-              }));
-            }}
-          >
-            <ToggleButton className={classes.toggleButton} value="pet-portrait">
-              Pet Portrait
-            </ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="abstract">
-              Abstract
-            </ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="wildlife">
-              Wildlife
-            </ToggleButton>
-            <ToggleButton className={classes.toggleButton} value="portrait">
-              Portrait
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Grid>
-        <Grid item>
-          <ToggleButtonGroup
             value={activeFilters.forSale}
             exclusive
             onChange={(_, forSale) => {
@@ -207,27 +186,27 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           </ToggleButtonGroup>
         </Grid>
         <Grid item>
-          <InputLabel id="category-select">Category</InputLabel>
-          <Select
-            labelId="category-select"
-            value={activeFilters.category}
-            label="Category"
-            sx={{ minWidth: 120 }}
-            size="small"
-            onChange={(event) => {
-              setActiveFilters((currentFilters) => ({
-                ...currentFilters,
-                category: (event.target.value ||
-                  "all-categories") as MaybeCategory,
-              }));
-            }}
-          >
-            <MenuItem value="all-categories">All</MenuItem>
-            <MenuItem value="pet-portrait">Pet Portrait</MenuItem>
-            <MenuItem value="portrait">Portrait</MenuItem>
-            <MenuItem value="abstract">Abstract</MenuItem>
-            <MenuItem value="wildlife">Wildlife</MenuItem>
-          </Select>
+          <FormControl size="small">
+            <InputLabel id="category-select">Category</InputLabel>
+            <Select
+              labelId="category-select"
+              value={activeFilters.category}
+              label="Category"
+              sx={{ minWidth: 120 }}
+              onChange={(event) => {
+                setActiveFilters((currentFilters) => ({
+                  ...currentFilters,
+                  category: (event.target.value as MaybeCategory) || null,
+                }));
+              }}
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="pet-portrait">Pet Portrait</MenuItem>
+              {/* <MenuItem value="portrait">Portrait</MenuItem>
+              <MenuItem value="abstract">Abstract</MenuItem>
+              <MenuItem value="wildlife">Wildlife</MenuItem> */}
+            </Select>
+          </FormControl>
         </Grid>
       </Grid>
       {activeFilters !== initialFilterState && (
