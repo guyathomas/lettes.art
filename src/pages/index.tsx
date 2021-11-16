@@ -22,6 +22,7 @@ import { useRouter } from "next/router";
 const ONE_DAY = 60 * 60 * 24;
 
 const SIMPLE_PET_PORTRAIT = true;
+const MAX_IMAGE_WIDTH = 410;
 
 const client = contentful.createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
@@ -32,6 +33,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   imageList: {
     padding: 10,
     margin: -10,
+    paddingTop: 20,
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: "repeat(1, 1fr) !important",
     },
@@ -45,7 +47,7 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   imageListItem: {
     transition: "transform 100ms ease-in-out",
     cursor: "pointer",
-    maxWidth: 410,
+    maxWidth: MAX_IMAGE_WIDTH,
     margin: "0 auto",
     "&:hover": {
       transform: "scale(1.01)",
@@ -54,10 +56,10 @@ const useImageListStyles = makeStyles((theme: Theme) => ({
   },
   resultSummary: {
     marginTop: "1.5rem",
-    marginBottom: "0.5rem",
     [theme.breakpoints.down("sm")]: {
-      maxWidth: 410,
+      maxWidth: MAX_IMAGE_WIDTH,
       margin: "1rem auto",
+      marginBottom: "0.5rem",
     },
   },
   toggleButton: {
@@ -264,13 +266,10 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             console.warn(`Artwork: ${item.fields.title} has no URL`);
             return null;
           }
-          const isPortrait =
-            file.details?.image?.width < file.details?.image?.height;
-          const width = isPortrait ? 600 : 850;
-          const ratio =
-            file.details?.image?.width && file.details?.image?.height
-              ? file.details?.image?.height / file.details?.image?.width
-              : 0;
+
+          const aspectRatio =
+            file.details?.image?.width / file.details?.image?.height;
+          const isLandscape = aspectRatio > 1.1;
           return (
             <ImageListItem
               key={item.sys.id}
@@ -280,9 +279,8 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               className={classes.imageListItem}
             >
               <img
-                src={file.url + `?w=${width}&fm=webp`}
-                width={`${width}px`}
-                height={`${width * ratio || width}px`}
+                src={file.url + `?w=${MAX_IMAGE_WIDTH}&fm=webp`}
+                width={`${MAX_IMAGE_WIDTH}px`}
                 alt={item.fields?.title}
                 loading="lazy"
               />
