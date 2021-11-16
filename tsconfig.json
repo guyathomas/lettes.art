@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-     "baseUrl": "src",
+    "baseUrl": "src",
     "lib": [
       "dom",
       "dom.iterable",
@@ -19,7 +19,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "outDir": "dist"
+    "outDir": "dist",
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
