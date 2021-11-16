@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { AppProps } from "next/app";
+import { StyledEngineProvider } from "@mui/material/styles";
 import ThemeProvider from "context/ThemeProvider";
 import AppLayout from "context/AppLayout";
 import Head from "next/head";
