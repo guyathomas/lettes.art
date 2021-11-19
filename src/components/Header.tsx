@@ -66,7 +66,7 @@ const Header: FC = () => {
         }}
       >
         <Box>
-          {/* <HomeLink href="https://store.lettes.art">Store</HomeLink>| */}
+          <HomeLink href="https://store.lettes.art">Store</HomeLink>|
           <Link href="/about">
             <HomeLink>
               <Box
