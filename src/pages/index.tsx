@@ -99,13 +99,32 @@ const initialFilterState: Filters = {
   category: null,
 };
 
+const useStateInParams = (query: Record<string, string> = {}) => {
+  const router = useRouter();
+  React.useEffect(() => {
+    router.replace(
+      {
+        pathname: "/",
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
+  });
+};
+
+type ArrayableString = string[] | string;
+const pullSingularParam = (arrayableString: ArrayableString) =>
+  Array.isArray(arrayableString) ? arrayableString[0] : arrayableString;
+
 const Index: React.FC<IndexProps> = ({ artwork }) => {
   const hasArtwork = artwork?.length;
   const classes = useImageListStyles();
   const router = useRouter();
-  const {
-    query: { artworkId },
-  } = router;
+  const [artworkId, setArtworkId] = React.useState<string | null>(
+    pullSingularParam(router.query.artworkId)
+  );
+  useStateInParams(artworkId ? { artworkId } : {});
   const [activeFilters, setActiveFilters] =
     React.useState<Filters>(initialFilterState);
 
@@ -113,16 +132,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
     () => artworkId && artwork.find((a) => a.sys.id === artworkId),
     [artworkId]
   );
-  const setActiveArtItem = (artworkId?: string) => {
-    router.replace(
-      {
-        pathname: "/",
-        query: artworkId ? { artworkId } : {},
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
+
   if (!hasArtwork) {
     return (
       <Typography variant="h2" textAlign="center" marginTop={5}>
@@ -130,30 +140,39 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       </Typography>
     );
   }
-  const filteredArtwork = artwork
-    .filter((art) => {
-      if (activeFilters.mediumPaint === null) return true;
-      return art.fields.mediumPaint.includes(activeFilters.mediumPaint);
-    })
-    .filter((art) => {
-      if (activeFilters.forSale === null) return true;
-      const forSale = (art.fields.forSale?.toString() ||
-        "false") as BooleanString;
-      const artMatchesActiveFilter = activeFilters.forSale.includes(forSale);
-      return artMatchesActiveFilter;
-    })
-    .filter((art) => {
-      if (activeFilters.category === null || activeFilters.category === "all") {
-        return true;
-      }
-      return art.fields.category === activeFilters.category;
-    });
+
+  const filteredArtwork = React.useMemo(
+    () =>
+      artwork
+        .filter((art) => {
+          if (activeFilters.mediumPaint === null) return true;
+          return art.fields.mediumPaint.includes(activeFilters.mediumPaint);
+        })
+        .filter((art) => {
+          if (activeFilters.forSale === null) return true;
+          const forSale = (art.fields.forSale?.toString() ||
+            "false") as BooleanString;
+          const artMatchesActiveFilter =
+            activeFilters.forSale.includes(forSale);
+          return artMatchesActiveFilter;
+        })
+        .filter((art) => {
+          if (
+            activeFilters.category === null ||
+            activeFilters.category === "all"
+          ) {
+            return true;
+          }
+          return art.fields.category === activeFilters.category;
+        }),
+    [artwork]
+  );
   return (
     <>
       <ImageModal
         artItem={activeArtItem}
         onClose={() => {
-          setActiveArtItem();
+          setArtworkId(null);
         }}
       />
       <Grid container gap={2} mb={1} alignItems="center">
@@ -274,7 +293,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
             <ImageListItem
               key={item.sys.id}
               onClick={() => {
-                setActiveArtItem(item.sys.id);
+                setArtworkId(item.sys.id);
               }}
               className={classes.imageListItem}
             >
