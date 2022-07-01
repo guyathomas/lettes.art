@@ -8,23 +8,24 @@
     "start": "next start"
   },
   "dependencies": {
-    "@contentful/rich-text-react-renderer": "^15.6.2",
+    "@contentful/rich-text-react-renderer": "^15.12.1",
     "@emotion/core": "^11.0.0",
-    "@emotion/react": "^11.7.0",
-    "@emotion/styled": "^11.6.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@guyathomas/layout-for-path": "^0.0.14",
     "@mui/core": "^5.0.0-alpha.54",
-    "@mui/icons-material": "^5.2.0",
-    "@mui/material": "^5.2.2",
-    "@mui/styles": "^5.2.2",
-    "contentful": "^9.1.5",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.6",
+    "@mui/styles": "^5.8.6",
+    "contentful": "^9.1.32",
     "lodash": "^4.17.21",
-    "next": "^12.0.4",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "next": "^12.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.177",
-    "typescript": "^4.5.2"
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^18.0.0",
+    "typescript": "^4.7.4"
   }
 }
