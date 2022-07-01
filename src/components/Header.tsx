@@ -52,6 +52,7 @@ const Header: FC = () => {
         variant="h4"
         sx={{
           textTransform: "uppercase",
+          marginRight: "1em",
         }}
       >
         <Link href="/">
