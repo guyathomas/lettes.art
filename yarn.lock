@@ -224,9 +224,9 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/core@^5.0.0-alpha.54":
+"@mui/base@^5.0.0-alpha.54":
   version "5.0.0-alpha.54"
-  resolved "https://registry.yarnpkg.com/@mui/core/-/core-5.0.0-alpha.54.tgz#2c04163552ac536e2026778cc7f7435ce004ba1b"
+  resolved "https://registry.yarnpkg.com/@mui/base/-/core-5.0.0-alpha.54.tgz#2c04163552ac536e2026778cc7f7435ce004ba1b"
   integrity sha512-8TxdHqDdSb6wjhsnpE5n7qtkFKDG3PUSlVY0gR3VcdsHXscUY13l3VbMQW1brI4D/R9zx5VYmxIHWaHFgw4RtA==
   dependencies:
     "@babel/runtime" "^7.16.0"
