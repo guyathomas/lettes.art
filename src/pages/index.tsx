@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import {
   Box,
   ImageList,
@@ -23,6 +24,7 @@ const ONE_DAY = 60 * 60 * 24;
 
 const SIMPLE_PET_PORTRAIT = true;
 const MAX_IMAGE_WIDTH = 410;
+const MAX_IMAGE_HEIGHT = 510;
 
 const client = contentful.createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
@@ -297,11 +299,12 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
               }}
               className={classes.imageListItem}
             >
-              <img
-                src={file.url + `?w=${MAX_IMAGE_WIDTH}&fm=webp`}
-                width={`${MAX_IMAGE_WIDTH}px`}
+              <Image
+                src={"http:" + file.url + `?w=${MAX_IMAGE_WIDTH}&fm=webp`}
                 alt={item.fields?.title}
                 loading="lazy"
+                width={`${MAX_IMAGE_WIDTH}px`}
+                height={`${MAX_IMAGE_HEIGHT}px`}
               />
               <Box marginBottom={2.5} marginTop={0.5}>
                 <Typography
