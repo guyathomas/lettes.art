@@ -101,9 +101,10 @@ const initialFilterState: Filters = {
   category: null,
 };
 
-const useStateInParams = (query: Record<string, string> = {}) => {
+const useStateInParams = (query?: Record<string, string>) => {
   const router = useRouter();
   React.useEffect(() => {
+    if (!query) return;
     router.replace(
       {
         pathname: "/",
@@ -112,7 +113,7 @@ const useStateInParams = (query: Record<string, string> = {}) => {
       undefined,
       { shallow: true }
     );
-  });
+  }, [query]);
 };
 
 type ArrayableString = string[] | string;
@@ -126,7 +127,11 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
   const [artworkId, setArtworkId] = React.useState<string | null>(
     pullSingularParam(router.query.artworkId)
   );
-  useStateInParams(artworkId ? { artworkId } : {});
+  const urlParams = React.useMemo(
+    () => (artworkId ? { artworkId } : undefined),
+    [artworkId]
+  );
+  useStateInParams(urlParams);
   const [activeFilters, setActiveFilters] =
     React.useState<Filters>(initialFilterState);
 
@@ -142,7 +147,6 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
       </Typography>
     );
   }
-
   const filteredArtwork = React.useMemo(
     () =>
       artwork
@@ -167,7 +171,7 @@ const Index: React.FC<IndexProps> = ({ artwork }) => {
           }
           return art.fields.category === activeFilters.category;
         }),
-    [artwork]
+    [artwork, activeFilters]
   );
   return (
     <>
