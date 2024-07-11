@@ -1,7 +1,4 @@
 import React from "react";
-import { Box, Typography, Grid } from "@mui/material";
-import { Link } from "@mui/material";
-import Image from "next/image";
 
 const bioParts = [
   `I have loved art, drawing and creating from an early age. I find as the years have gone by I like to push to better myself and am learning everyday. Exploring new techniques and mediums.
@@ -18,27 +15,27 @@ const picture = {
 };
 
 const About: React.FC = () => (
-  <Box>
-    <Typography variant="h5">About me</Typography>
-    <Grid container spacing={2} mt={2}>
-      <Grid item md={6} xs={12}>
+  <div>
+    <h5>About me</h5>
+    <div >
+      <div>
         {bioParts.map((part) => (
-          <Typography variant="body1" mb={4}>
+          <p>
             {part}
-          </Typography>
+          </p>
         ))}
-        <Link href={`mailto:barlow.collette@gmail.com`}>
+        <a href={`mailto:barlow.collette@gmail.com`}>
           barlow.collette@gmail.com
-        </Link>
-      </Grid>
-      <Grid item md={6} xs={12}>
-        <Image
+        </a>
+      </div>
+      <div>
+        <img
           width={picture.width * 0.8}
           height={picture.height * 0.8}
           src={`https://res.cloudinary.com/dqvlfpaev/image/upload/v1624578929/197472447_320757756265540_8200265514722458335_n_wjnutc.jpg`}
         />
-      </Grid>
-    </Grid>
-  </Box>
+      </div>
+    </div>
+  </div>
 );
 export default About;
