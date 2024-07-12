@@ -1,9 +1,8 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import graphQLCodegen from 'vite-plugin-graphql-codegen';
+import graphQLCodegen from "vite-plugin-graphql-codegen";
 import graphqlLoader from "vite-plugin-graphql-loader";
-
 
 export default defineConfig({
   plugins: [

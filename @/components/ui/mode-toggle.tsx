@@ -1,18 +1,27 @@
-import { Theme, useTheme } from "remix-themes"
+import React from "react";
+import { Theme, useTheme } from "remix-themes";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 export function ModeToggle() {
-  const [, setTheme] = useTheme()
+  const [, setTheme] = useTheme();
 
   return (
-   <>
-     <Button onClick={() => setTheme(Theme.LIGHT)}>
+    <>
+      <Button
+        onClick={() => {
+          setTheme(Theme.LIGHT);
+        }}
+      >
         Light
-    </Button>
-    <Button onClick={() => setTheme(Theme.DARK)}>
+      </Button>
+      <Button
+        onClick={() => {
+          setTheme(Theme.DARK);
+        }}
+      >
         Dark
-    </Button>
-   </>
-  )
+      </Button>
+    </>
+  );
 }

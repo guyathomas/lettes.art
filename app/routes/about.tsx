@@ -17,12 +17,10 @@ const picture = {
 const About: React.FC = () => (
   <div>
     <h5>About me</h5>
-    <div >
+    <div>
       <div>
-        {bioParts.map((part) => (
-          <p>
-            {part}
-          </p>
+        {bioParts.map((part, i) => (
+          <p key={i}>{part}</p>
         ))}
         <a href={`mailto:barlow.collette@gmail.com`}>
           barlow.collette@gmail.com

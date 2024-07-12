@@ -1,17 +1,14 @@
 import React from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Form, useSearchParams } from "@remix-run/react";
+import { Form, useSearchParams , useLoaderData } from "@remix-run/react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Toggle } from "@/components/ui/toggle";
-import { useLoaderData } from "@remix-run/react";
 
 import { contentfulClient } from "../models/contentful/controller";
 
@@ -33,14 +30,14 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-const MAX_IMAGE_WIDTH = 1179;
+const MAX_IMAGE_WIDTH = "1179";
 
 export async function loader() {
   const entries = await contentfulClient.getArtCollection();
 
   return {
     artwork: entries?.sort((a, b) =>
-      (a?.dateCompleted || 0) > (b?.dateCompleted || 0) ? -1 : 1
+      (a?.dateCompleted || 0) > (b?.dateCompleted || 0) ? -1 : 1,
     ),
   };
 }
@@ -86,27 +83,24 @@ const Index: React.FC = () => {
   //   [artwork, activeFilters]
   // );
   const activeArtwork = artwork.find((art) => art?._id === activeImageId);
-  const activeImageURL = activeArtwork?.imagesCollection?.items?.[0];
+  const modalUrl = activeArtwork?.imagesCollection?.items[0]?.url;
   return (
     <>
       <Dialog>
-        <DialogContent className="w-screen h-screen max-w-none">
-          <DialogHeader>
-            <DialogTitle>
-              {" "}
-              <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-                {activeArtwork?.title}
-              </h2>
-            </DialogTitle>
-            <DialogDescription>
-              <img src={activeImageURL?.url || ""} />
-            </DialogDescription>
-          </DialogHeader>
+        <DialogContent className="">
+          <DialogTitle>
+            <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+              {activeArtwork?.title}
+            </h2>
+          </DialogTitle>
+          <img
+            src={modalUrl ? modalUrl + `?w=1800&fm=webp` : ""}
+            className="object-cover object-center max-h-[75vh] max-w-[85vw] md:max-w-[75vw]"
+          />
         </DialogContent>
-
         <div>
           <h1 className="text-primary scroll-m-20 text-4xl tracking-tight lg:text-5xl uppercase my-4 sticky top-0 bg-background z-10 py-2">
-            {"Lette's Art"}
+            {`Lette's Art`}
           </h1>
           <div className="flex mb-4 gap-x-8 gap-y-2 flex-wrap">
             <ToggleGroup type="single" variant="outline">
@@ -132,7 +126,6 @@ const Index: React.FC = () => {
                 Watercolour
               </ToggleGroupItem>
             </ToggleGroup>
-
             <ToggleGroup type="single" variant="outline">
               <ToggleGroupItem
                 value="bold"
@@ -160,37 +153,39 @@ const Index: React.FC = () => {
           <Form>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
               {filteredArtwork.map((artwork) => {
-                if (!artwork?.imagesCollection?.items?.length) {
+                if (!artwork?.imagesCollection?.items.length) {
                   console.warn(
-                    `Artwork: ${artwork?.title || "?"} has no images`
+                    `Artwork: ${artwork?.title || "?"} has no images`,
                   );
                   return null;
                 }
-
-                const file = artwork?.imagesCollection.items[0];
-
+                const file = artwork.imagesCollection.items[0];
                 return (
-                  <DialogTrigger asChild>
-                    <button
-                      key={artwork._id}
-                      name={QUERY_PARAMS.ACTIVE_IMAGE_ID}
-                      value={artwork._id}
-                      className="transform hover:scale-[1.02] transition duration-300"
-                    >
+                  <button
+                    name={QUERY_PARAMS.ACTIVE_IMAGE_ID}
+                    value={artwork._id}
+                    className="transform hover:scale-[1.02] transition duration-300"
+                    key={artwork._id}
+                  >
+                    <DialogTrigger asChild>
                       <Card className="text-primary h-full flex flex-col bg-primary-foreground">
                         <CardHeader>
                           <CardTitle>{artwork.title}</CardTitle>
                         </CardHeader>
                         <img
-                          src={file?.url + `?w=${MAX_IMAGE_WIDTH}&fm=webp`}
-                          alt={artwork?.title || "artwork image"}
+                          src={
+                            file?.url
+                              ? file.url + `?w=${MAX_IMAGE_WIDTH}&fm=webp`
+                              : ""
+                          }
+                          alt={artwork.title || "artwork image"}
                           loading="lazy"
                           width={`${MAX_IMAGE_WIDTH}px`}
-                          className="rounded-b-sm h-full"
+                          className="rounded-b-sm h-full object-cover"
                         />
                       </Card>
-                    </button>
-                  </DialogTrigger>
+                    </DialogTrigger>
+                  </button>
                 );
               })}
             </div>
