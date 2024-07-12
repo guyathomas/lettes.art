@@ -1,5 +1,5 @@
 query GetArtCollection {
-  artCollection(limit: 5) {
+  artCollection(limit: 10) {
     items {
       __typename
       _id
