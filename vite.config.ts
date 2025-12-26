@@ -1,19 +1,12 @@
-import { reactRouter } from "@react-router/dev/vite";
-import { defineConfig, type PluginOption } from "vite";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-import graphQLCodegen from "vite-plugin-graphql-codegen";
-import graphqlLoader from "vite-plugin-graphql-loader";
 import tailwindcss from "@tailwindcss/vite";
+import graphqlLoader from "vite-plugin-graphql-loader";
 
-export default defineConfig(({ command }) => ({
-  plugins: [
-    tailwindcss(),
-    reactRouter(),
-    tsconfigPaths(),
-    // Only run codegen in dev mode when env vars are available
-    command === "serve" && process.env.CONTENTFUL_SPACE_ID
-      ? graphQLCodegen()
-      : null,
-    graphqlLoader(),
-  ].filter(Boolean) as PluginOption[],
-}));
+export default defineConfig({
+  plugins: [tailwindcss(), react(), tsconfigPaths(), graphqlLoader()],
+  build: {
+    outDir: "dist",
+  },
+});
