@@ -1,0 +1,32 @@
+query GetArtCollection {
+  artCollection(limit: 10) {
+    items {
+      __typename
+      _id
+      imagesCollection {
+        items {
+          url
+          width
+          height
+          title
+        }
+      }
+      title
+      artHeight
+      artWidth
+      category
+      dateCompleted
+      description {
+        json
+      }
+      forSale
+      mediumPaint
+      mediumSurface
+      previewImage {
+        height
+        width
+        url
+      }
+    }
+  }
+}
