@@ -1,20 +1,19 @@
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { reactRouter } from "@react-router/dev/vite";
+import { defineConfig, type PluginOption } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import graphQLCodegen from "vite-plugin-graphql-codegen";
 import graphqlLoader from "vite-plugin-graphql-loader";
+import tailwindcss from "@tailwindcss/vite";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
-    remix({
-      future: {
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_throwAbortReason: true,
-      },
-    }),
+    tailwindcss(),
+    reactRouter(),
     tsconfigPaths(),
-    graphQLCodegen(),
+    // Only run codegen in dev mode when env vars are available
+    command === "serve" && process.env.CONTENTFUL_SPACE_ID
+      ? graphQLCodegen()
+      : null,
     graphqlLoader(),
-  ],
-});
+  ].filter(Boolean) as PluginOption[],
+}));

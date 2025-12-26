@@ -1,6 +1,6 @@
 import React from 'react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Form, useSearchParams, useLoaderData } from '@remix-run/react';
+import { Form, useSearchParams, useLoaderData } from 'react-router';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
@@ -12,7 +12,7 @@ import { Toggle } from '@/components/ui/toggle';
 
 import { contentfulClient } from '../models/contentful/controller';
 
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from 'react-router';
 
 export const meta: MetaFunction = () => {
   return [
