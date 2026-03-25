@@ -46,23 +46,26 @@ export function Gallery() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <p className="text-neutral-500">Loading...</p>
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <div className="flex items-center gap-3 text-muted-foreground">
+          <div className="h-1 w-8 bg-accent/30 animate-pulse rounded" />
+          <span className="font-serif text-lg">Loading collection...</span>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <p className="text-red-600">Error: {error}</p>
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <p className="text-destructive font-serif">Error: {error}</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-6 py-12">
+      <div className="mx-auto max-w-6xl px-6 pt-10 pb-16">
         <Filters
           selectedMedium={selectedMedium}
           selectedStatus={selectedStatus}
@@ -71,11 +74,13 @@ export function Gallery() {
         />
 
         {filteredArtworks.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-neutral-500">No artworks match your filters.</p>
+          <div className="text-center py-24">
+            <p className="font-serif text-xl text-muted-foreground">
+              No artworks match your filters.
+            </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
             {filteredArtworks.map((art) => {
               if (!art?.imagesCollection?.items.length) {
                 return null;

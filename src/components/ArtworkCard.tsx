@@ -16,30 +16,34 @@ export function ArtworkCard({ artwork, onClick }: ArtworkCardProps) {
   return (
     <button
       onClick={onClick}
-      className="group text-left w-full transition-opacity hover:opacity-80"
+      className="group text-left w-full"
     >
-      <div className="aspect-[3/4] bg-neutral-100 mb-4 overflow-hidden">
+      <div className="aspect-[3/4] bg-secondary/50 mb-5 overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-500">
         {imageUrl && (
           <img
             src={imageUrl + "?w=800&fm=webp"}
             alt={artwork.title || "artwork"}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             loading="lazy"
           />
         )}
       </div>
 
       <div className="space-y-1">
-        <h3 className="text-lg text-neutral-900">{artwork.title}</h3>
-        {year && <p className="text-sm text-neutral-500">{year}</p>}
-        {artwork.mediumPaint && (
-          <p className="text-sm text-neutral-600">{artwork.mediumPaint}</p>
-        )}
-        {artwork.forSale && (
-          <p className="text-sm text-neutral-900">For Sale</p>
-        )}
-        {!artwork.forSale && (
-          <p className="text-sm text-neutral-400 italic">Sold</p>
+        <h3 className="font-serif text-xl text-foreground group-hover:text-accent transition-colors">
+          {artwork.title}
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          {[artwork.mediumPaint?.filter(Boolean).join(", "), year].filter(Boolean).join(" · ")}
+        </p>
+        {artwork.forSale ? (
+          <p className="text-xs font-medium tracking-wide uppercase text-accent">
+            Available
+          </p>
+        ) : (
+          <p className="text-xs tracking-wide uppercase text-muted-foreground/60">
+            Sold
+          </p>
         )}
       </div>
     </button>

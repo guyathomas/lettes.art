@@ -1,23 +1,24 @@
 export function About() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
-      <div className="space-y-8">
+    <div className="mx-auto max-w-2xl px-6 py-20">
+      <div className="space-y-12">
         <div>
-          <h1 className="text-3xl text-neutral-900 mb-6">About Lette</h1>
-          <div className="prose prose-neutral">
-            <p className="text-neutral-700 leading-relaxed mb-4">
+          <h1 className="font-serif text-4xl text-foreground mb-2">About Lette</h1>
+          <div className="h-px w-12 bg-accent mb-8" />
+          <div className="space-y-5 text-muted-foreground leading-relaxed">
+            <p>
               Lette is a fine artist working primarily in acrylic, graphite, and
-              watercolour. Based in the Pacific Northwest, their work explores
-              the intersection of color, light, and texture through both abstract
-              and representational forms.
+              watercolour. Based on the Mornington Peninsula in Australia, their work
+              explores the intersection of color, light, and texture through both
+              abstract and representational forms.
             </p>
-            <p className="text-neutral-700 leading-relaxed mb-4">
+            <p>
               With a background in traditional drawing and painting techniques,
               Lette has developed a distinctive style that emphasizes atmosphere
               and emotional resonance. Each piece is carefully crafted to invite
               contemplation and create a sense of calm.
             </p>
-            <p className="text-neutral-700 leading-relaxed">
+            <p>
               Their work has been featured in regional galleries and private
               collections. Lette continues to explore new approaches to familiar
               mediums, always seeking to capture fleeting moments of beauty and
@@ -26,20 +27,19 @@ export function About() {
           </div>
         </div>
 
-        <div className="border-t border-neutral-200 pt-8">
-          <h2 className="text-xl text-neutral-900 mb-4">Contact</h2>
-          <p className="text-neutral-700">
-            For inquiries about available works or commissions, please reach out
-            via email.
+        <div>
+          <div className="h-px bg-gradient-to-r from-border to-transparent mb-8" />
+          <h2 className="font-serif text-2xl text-foreground mb-4">Get in Touch</h2>
+          <p className="text-muted-foreground mb-3">
+            For inquiries about available works or commissions:
           </p>
-          <p className="mt-2">
-            <a
-              href="mailto:lette@example.com"
-              className="text-neutral-900 hover:text-neutral-600 transition-colors underline decoration-neutral-300 underline-offset-2"
-            >
-              lette@example.com
-            </a>
-          </p>
+          <a
+            href="mailto:lette@example.com"
+            className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors font-medium"
+          >
+            lette@example.com
+            <span aria-hidden="true">&rarr;</span>
+          </a>
         </div>
       </div>
     </div>
