@@ -46,10 +46,21 @@ export function Gallery() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl px-6 py-20">
-        <div className="flex items-center gap-3 text-muted-foreground">
-          <div className="h-1 w-8 bg-accent/30 animate-pulse rounded" />
-          <span className="font-serif text-lg">Loading collection...</span>
+      <div className="mx-auto max-w-6xl px-6 pt-10 pb-16">
+        <div className="flex flex-col sm:flex-row gap-8 mb-14">
+          <div className="skeleton h-5 w-24 rounded" />
+          <div className="skeleton h-5 w-32 rounded sm:ml-auto" />
+        </div>
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 masonry">
+          {[280, 360, 300, 400, 320, 280].map((h, i) => (
+            <div key={i} className="mb-6">
+              <div className="skeleton rounded-sm" style={{ height: h }} />
+              <div className="mt-4 space-y-2">
+                <div className="skeleton h-5 w-3/4 rounded" />
+                <div className="skeleton h-3 w-1/2 rounded" />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -58,7 +69,14 @@ export function Gallery() {
   if (error) {
     return (
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <p className="text-destructive font-serif">Error: {error}</p>
+        <div className="max-w-sm">
+          <p className="font-serif text-2xl text-foreground mb-2 text-balance">
+            Something went wrong
+          </p>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {error}
+          </p>
+        </div>
       </div>
     );
   }
@@ -74,14 +92,17 @@ export function Gallery() {
         />
 
         {filteredArtworks.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="font-serif text-xl text-muted-foreground">
-              No artworks match your filters.
+          <div className="py-24 max-w-sm">
+            <p className="font-serif text-2xl text-foreground mb-2 text-balance">
+              Nothing here yet
+            </p>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              No artworks match your current filters. Try adjusting your selection above.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
-            {filteredArtworks.map((art) => {
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 masonry">
+            {filteredArtworks.map((art, index) => {
               if (!art?.imagesCollection?.items.length) {
                 return null;
               }
@@ -89,6 +110,7 @@ export function Gallery() {
                 <ArtworkCard
                   key={art._id}
                   artwork={art}
+                  index={index}
                   onClick={() => setSelectedArtwork(art)}
                 />
               );

@@ -19,25 +19,31 @@ export function ArtworkLightbox({ artwork, onClose }: ArtworkLightboxProps) {
 
   return (
     <Dialog open={!!artwork} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-[90vw] md:max-w-4xl p-0 overflow-hidden bg-background border-none shadow-2xl">
+      <DialogContent className="w-full h-full max-w-none max-h-none sm:w-auto sm:h-auto sm:max-w-[92vw] md:max-w-4xl p-0 overflow-y-auto bg-background border-none rounded-none sm:rounded-lg shadow-none sm:shadow-[0_25px_60px_-12px_rgba(20,15,10,0.3)] flex flex-col">
         <DialogTitle className="sr-only">{artwork?.title}</DialogTitle>
         <DialogDescription className="sr-only">
           {artwork?.title} - {artwork?.mediumPaint?.join(", ")}
         </DialogDescription>
         {modalUrl && (
-          <img
-            src={modalUrl + "?w=1800&fm=webp"}
-            className="object-contain max-h-[80vh] w-full"
-            alt={artwork?.title || "artwork"}
-          />
+          <div className="flex-1 flex items-center bg-secondary/30 min-h-0">
+            <img
+              src={modalUrl + "?w=1800&fm=webp"}
+              className="object-contain w-full max-h-full sm:max-h-[80vh]"
+              alt={artwork?.title || "artwork"}
+            />
+          </div>
         )}
-        <div className="px-6 py-4 border-t border-border">
-          <h2 className="font-serif text-2xl text-foreground">{artwork?.title}</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            {[artwork?.mediumPaint?.filter(Boolean).join(", "), year, artwork?.dimensions].filter(Boolean).join(" · ")}
+        <div className="shrink-0 px-6 sm:px-8 py-5">
+          <h2 className="font-serif text-2xl tracking-tight text-foreground">
+            {artwork?.title}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1.5">
+            {[artwork?.mediumPaint?.filter(Boolean).join(", "), year].filter(Boolean).join(" \u00b7 ")}
           </p>
           {artwork?.forSale && (
-            <p className="text-sm text-accent mt-2 font-medium">Available for purchase</p>
+            <p className="text-xs font-medium tracking-wide uppercase text-accent mt-3">
+              Available for purchase
+            </p>
           )}
         </div>
       </DialogContent>

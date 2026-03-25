@@ -20,18 +20,18 @@ export function Filters({
   return (
     <div className="flex flex-col sm:flex-row gap-8 mb-14">
       <div>
-        <span className="font-serif text-sm text-muted-foreground tracking-wide uppercase mb-3 block">
+        <span className="font-serif text-xs text-muted-foreground tracking-widest uppercase mb-3 block">
           Medium
         </span>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {mediums.map((medium) => (
             <button
               key={medium}
               onClick={() => onMediumChange(medium)}
-              className={`px-4 py-1.5 text-sm transition-all border ${
+              className={`px-4 py-1.5 text-sm transition-all duration-200 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                 selectedMedium === medium
-                  ? "border-foreground text-foreground bg-foreground/5"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+                  ? "bg-foreground text-background font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
               }`}
             >
               {medium}
@@ -41,18 +41,18 @@ export function Filters({
       </div>
 
       <div className="sm:ml-auto">
-        <span className="font-serif text-sm text-muted-foreground tracking-wide uppercase mb-3 block">
+        <span className="font-serif text-xs text-muted-foreground tracking-widest uppercase mb-3 block">
           Status
         </span>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {statuses.map((status) => (
             <button
               key={status}
               onClick={() => onStatusChange(status)}
-              className={`px-4 py-1.5 text-sm transition-all border ${
+              className={`px-4 py-1.5 text-sm transition-all duration-200 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                 selectedStatus === status
-                  ? "border-foreground text-foreground bg-foreground/5"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+                  ? "bg-foreground text-background font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
               }`}
             >
               {status}
