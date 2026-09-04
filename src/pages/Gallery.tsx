@@ -3,10 +3,9 @@ import { Filters } from "../components/Filters";
 import { ArtworkCard } from "../components/ArtworkCard";
 import { ArtworkLightbox } from "../components/ArtworkLightbox";
 import { contentfulClient } from "../models/contentful/controller";
-import type { ArtItem } from "../types";
+import type { ArtItem, Medium, Status } from "../types";
 
-type Medium = "Acrylic" | "Graphite" | "Watercolour";
-type Status = "For Sale" | "Sold";
+const SKELETON_HEIGHTS = [220, 160, 280, 200, 240, 180, 260, 200, 150, 300, 190, 230];
 
 export function Gallery() {
   const [artwork, setArtwork] = useState<ArtItem[]>([]);
@@ -14,7 +13,8 @@ export function Gallery() {
   const [error, setError] = useState<string | null>(null);
   const [selectedMedium, setSelectedMedium] = useState<Medium | "All">("All");
   const [selectedStatus, setSelectedStatus] = useState<Status | "All">("All");
-  const [selectedArtwork, setSelectedArtwork] = useState<ArtItem | null>(null);
+  const [showLabels, setShowLabels] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useEffect(() => {
     contentfulClient
@@ -34,6 +34,7 @@ export function Gallery() {
 
   const filteredArtworks = useMemo(() => {
     return artwork.filter((art) => {
+      if (!art?.imagesCollection?.items.length) return false;
       const mediumMatch =
         selectedMedium === "All" || art?.mediumPaint?.includes(selectedMedium);
       const statusMatch =
@@ -44,52 +45,68 @@ export function Gallery() {
     });
   }, [artwork, selectedMedium, selectedStatus]);
 
+  // The lightbox indexes into the filtered list, so changing a filter while it
+  // is open would point at a different piece — close it instead.
+  useEffect(() => {
+    setOpenIndex(null);
+  }, [selectedMedium, selectedStatus]);
+
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl px-6 pt-10 pb-16">
-        <div className="flex flex-col sm:flex-row gap-8 mb-14">
-          <div className="skeleton h-5 w-24 rounded" />
-          <div className="skeleton h-5 w-32 rounded sm:ml-auto" />
+      <section id="gallery" className="mx-auto max-w-6xl px-5 sm:px-6 pt-8 sm:pt-10">
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4 mb-6 sm:mb-7">
+          <div className="skeleton h-9 w-48 rounded" />
+          <div className="skeleton h-12 w-72 rounded" />
         </div>
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 masonry">
-          {[280, 360, 300, 400, 320, 280].map((h, i) => (
-            <div key={i} className="mb-6">
-              <div className="skeleton rounded-sm" style={{ height: h }} />
-              <div className="mt-4 space-y-2">
-                <div className="skeleton h-5 w-3/4 rounded" />
-                <div className="skeleton h-3 w-1/2 rounded" />
-              </div>
-            </div>
+        <div className="wall">
+          {SKELETON_HEIGHTS.map((h, i) => (
+            <div key={i} className="skeleton" style={{ height: h }} />
           ))}
         </div>
-      </div>
+      </section>
     );
   }
 
   if (error) {
     return (
-      <div className="mx-auto max-w-6xl px-6 py-20">
+      <section id="gallery" className="mx-auto max-w-6xl px-5 sm:px-6 py-20">
         <div className="max-w-sm">
           <p className="font-serif text-2xl text-foreground mb-2 text-balance">
             Something went wrong
           </p>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            {error}
-          </p>
+          <p className="text-muted-foreground text-sm leading-relaxed">{error}</p>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
     <>
-      <div className="mx-auto max-w-6xl px-6 pt-10 pb-16">
-        <Filters
-          selectedMedium={selectedMedium}
-          selectedStatus={selectedStatus}
-          onMediumChange={setSelectedMedium}
-          onStatusChange={setSelectedStatus}
-        />
+      <section
+        id="gallery"
+        aria-labelledby="wall-title"
+        className="mx-auto max-w-6xl px-5 sm:px-6 pt-8 sm:pt-10"
+      >
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4 mb-6 sm:mb-7">
+          <h1
+            id="wall-title"
+            className="font-serif font-normal text-[clamp(1.875rem,4vw,2.5rem)] leading-[1.1] tracking-[-0.02em] text-foreground"
+          >
+            The wall
+            <small className="inline-block ml-2.5 align-middle font-serif text-xs tracking-widest uppercase text-muted-foreground">
+              {filteredArtworks.length} works
+            </small>
+          </h1>
+
+          <Filters
+            selectedMedium={selectedMedium}
+            selectedStatus={selectedStatus}
+            showLabels={showLabels}
+            onMediumChange={setSelectedMedium}
+            onStatusChange={setSelectedStatus}
+            onShowLabelsChange={setShowLabels}
+          />
+        </div>
 
         {filteredArtworks.length === 0 ? (
           <div className="py-24 max-w-sm">
@@ -101,27 +118,25 @@ export function Gallery() {
             </p>
           </div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 masonry">
-            {filteredArtworks.map((art, index) => {
-              if (!art?.imagesCollection?.items.length) {
-                return null;
-              }
-              return (
-                <ArtworkCard
-                  key={art._id}
-                  artwork={art}
-                  index={index}
-                  onClick={() => setSelectedArtwork(art)}
-                />
-              );
-            })}
+          <div className={`wall${showLabels ? " labels" : ""}`}>
+            {filteredArtworks.map((art, index) => (
+              <ArtworkCard
+                key={art?._id}
+                artwork={art}
+                index={index}
+                showLabel={showLabels}
+                onClick={() => setOpenIndex(index)}
+              />
+            ))}
           </div>
         )}
-      </div>
+      </section>
 
       <ArtworkLightbox
-        artwork={selectedArtwork}
-        onClose={() => setSelectedArtwork(null)}
+        artworks={filteredArtworks}
+        index={openIndex}
+        onIndexChange={setOpenIndex}
+        onClose={() => setOpenIndex(null)}
       />
     </>
   );
