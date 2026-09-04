@@ -23,7 +23,7 @@ function Chip({
       type="button"
       aria-pressed={pressed}
       onClick={onClick}
-      className={`min-h-9 px-3.5 py-1.5 text-sm transition-all duration-200 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent ${
+      className={`min-h-9 px-3.5 py-1.5 text-sm transition-all duration-200 active:scale-(--press-scale-chip) focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent ${
         pressed
           ? "bg-foreground text-background font-medium"
           : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"

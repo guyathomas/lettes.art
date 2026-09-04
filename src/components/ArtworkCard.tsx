@@ -17,15 +17,15 @@ export function ArtworkCard({ artwork, index, showLabel, onClick }: ArtworkCardP
     <button
       onClick={onClick}
       aria-label={artwork.title || "artwork"}
-      className="group text-left w-full animate-fade-up active:scale-[0.98] transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+      className="group text-left w-full animate-fade-up active:scale-(--press-scale) transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
       style={{ "--index": index } as React.CSSProperties}
     >
-      <div className="bg-secondary/30 overflow-hidden shadow-[0_2px_8px_-2px_rgba(20,15,10,0.08)] group-hover:shadow-[0_8px_24px_-4px_rgba(20,15,10,0.12)] transition-shadow duration-500">
+      <div className="bg-secondary/30 overflow-hidden shadow-card group-hover:shadow-card-hover transition-shadow duration-500">
         {imageUrl && (
           <img
             src={imageUrl + "?w=800&fm=webp"}
             alt={artwork.title || "artwork"}
-            className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-(--hover-zoom)"
             style={{ aspectRatio: getAspectRatio(artwork) }}
             loading="lazy"
           />

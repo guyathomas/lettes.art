@@ -14,7 +14,7 @@ export function About() {
         <em className="text-accent">Lette</em>
       </h2>
 
-      <div className="space-y-6 text-muted-foreground leading-relaxed max-w-[65ch] text-pretty">
+      <div className="space-y-6 text-muted-foreground leading-relaxed max-w-measure text-pretty">
         <p>
           Lette is a fine artist working primarily in acrylic, graphite, and
           watercolour. Based on the Mornington Peninsula in Australia, their work

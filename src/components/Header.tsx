@@ -51,14 +51,14 @@ export function Header() {
   const active = useActiveSection();
 
   return (
-    <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-40">
+    <header className="bg-background/80 backdrop-blur-header sticky top-0 z-40">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 py-[18px] sm:py-6">
         <div className="flex items-center justify-between">
           <a href="#gallery" className="flex items-center gap-3 group" aria-label="Lette's Art home">
             <img
               src="/logo/logo-dark.svg"
               alt="Lette's Art"
-              className="h-8 sm:h-10 transition-opacity duration-300 group-hover:opacity-70"
+              className="h-8 sm:h-10 transition-opacity duration-300 group-hover:opacity-(--hover-opacity)"
             />
           </a>
 
@@ -80,7 +80,7 @@ export function Header() {
           </nav>
         </div>
       </div>
-      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="hairline" />
     </header>
   );
 }

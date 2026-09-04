@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
 } from "./ui/dialog";
+import { Icon } from "./ui/icon";
 import type { ArtItem } from "../types";
 import { formatDimensions, formatMeta, getAspectRatio } from "../lib/artwork";
 
@@ -51,7 +51,7 @@ export function ArtworkLightbox({
   return (
     <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
       <DialogContent
-        className="w-full h-full max-w-none max-h-none sm:w-auto sm:h-auto sm:max-w-[92vw] md:max-w-4xl p-0 overflow-y-auto bg-background border-none rounded-none sm:rounded-lg shadow-none sm:shadow-[0_25px_60px_-12px_rgba(20,15,10,0.3)] flex flex-col"
+        className="w-full h-full max-w-none max-h-none sm:w-auto sm:h-auto sm:max-w-[92vw] md:max-w-4xl p-0 overflow-y-auto bg-background border-none rounded-none sm:rounded-lg shadow-none sm:shadow-lightbox flex flex-col"
         onTouchStart={(event) => {
           touchStartX.current = event.touches[0].clientX;
         }}
@@ -100,7 +100,7 @@ export function ArtworkLightbox({
               aria-label="Previous artwork"
               className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 rounded-full p-2.5 bg-background/90 text-foreground/70 shadow-sm transition-all duration-200 hover:bg-background hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <ChevronLeft className="h-4.5 w-4.5" />
+              <Icon name="chevron-left" size={18} />
             </button>
             <button
               type="button"
@@ -108,7 +108,7 @@ export function ArtworkLightbox({
               aria-label="Next artwork"
               className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 rounded-full p-2.5 bg-background/90 text-foreground/70 shadow-sm transition-all duration-200 hover:bg-background hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <ChevronRight className="h-4.5 w-4.5" />
+              <Icon name="chevron-right" size={18} />
             </button>
           </>
         )}

@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { Icon } from "./icon";
 
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-[#1a150f]/75 backdrop-blur-[2px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-[#1a150f]/75 backdrop-blur-overlay data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className,
     )}
     {...props}
@@ -42,8 +42,8 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full p-2 sm:p-1.5 bg-background/90 sm:bg-background/80 backdrop-blur-sm text-foreground/70 shadow-sm transition-all duration-200 hover:bg-background hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none">
-        <X className="h-4 w-4" />
+      <DialogPrimitive.Close className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full p-2 sm:p-1.5 bg-background/90 sm:bg-background/80 backdrop-blur-header text-foreground/70 shadow-sm transition-all duration-200 hover:bg-background hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none">
+        <Icon name="x" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

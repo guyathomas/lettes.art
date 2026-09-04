@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
 import { Button } from "./button";
+import { Icon } from "./icon";
 
 export function ModeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -24,11 +24,7 @@ export function ModeToggle() {
 
   return (
     <Button variant="outline" size="icon" onClick={toggleTheme}>
-      {theme === "light" ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
+      <Icon name={theme === "light" ? "sun" : "moon"} size={20} />
       <span className="sr-only">Toggle theme</span>
     </Button>
   );

@@ -28,6 +28,18 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  /* Warm-tinted elevation, from the design system's effects tokens. */
+  --shadow-card: 0 2px 8px -2px rgb(20 15 10 / 0.08);
+  --shadow-card-hover: 0 8px 24px -4px rgb(20 15 10 / 0.12);
+  --shadow-lightbox: 0 25px 60px -12px rgb(20 15 10 / 0.3);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --blur-header: 4px;
+  --blur-overlay: 2px;
+
+  --container-measure: 65ch;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -67,6 +79,19 @@
   --input: 30 15% 88%;
   --ring: 16 65% 52%;
   --radius: 0.5rem;
+
+  /* Interaction, from the design system's effects tokens. */
+  --press-scale: 0.98;
+  --press-scale-chip: 0.96;
+  --hover-zoom: 1.03;
+  --hover-opacity: 0.7;
+  --stagger: 80ms;
+
+  /* Texture. Site chrome is separated by hairlines rather than borders. */
+  --hairline: linear-gradient(to right, transparent, hsl(var(--border)), transparent);
+  --hairline-left: linear-gradient(to right, hsl(var(--border)), transparent);
+  --grain-opacity: 0.03;
+  --grain-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 
@@ -101,8 +126,19 @@
 }
 
 .animate-fade-up {
-  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fade-up 0.6s var(--ease-out-expo) both;
   animation-delay: calc(var(--index, 0) * var(--stagger, 80ms));
+}
+
+/* Hairlines — the site's chrome separators. */
+.hairline {
+  height: 1px;
+  background: var(--hairline);
+}
+
+.hairline-left {
+  height: 1px;
+  background: var(--hairline-left);
 }
 
 /* Salon wall — dense caption-free masonry, hung shoulder to shoulder.
@@ -171,8 +207,8 @@
   inset: 0;
   z-index: 10;
   pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: var(--grain-opacity);
+  background-image: var(--grain-image);
 }
 
 @media (prefers-reduced-motion: reduce) {
