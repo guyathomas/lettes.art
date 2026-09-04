@@ -98,12 +98,48 @@
 
 .animate-fade-up {
   animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: calc(var(--index, 0) * 80ms);
+  animation-delay: calc(var(--index, 0) * var(--stagger, 80ms));
 }
 
-/* Masonry column layout — break-inside for child items */
-.masonry > * {
+/* Salon wall — dense caption-free masonry, hung shoulder to shoulder.
+   Adding .labels widens the columns to make room for the captions. */
+.wall {
+  --stagger: 60ms;
+  column-count: 2;
+  column-gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .wall { column-count: 3; }
+}
+
+@media (min-width: 1024px) {
+  .wall { column-count: 4; }
+}
+
+@media (min-width: 1440px) {
+  .wall { column-count: 5; }
+}
+
+.wall.labels {
+  column-count: 1;
+  column-gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .wall.labels { column-count: 2; }
+}
+
+@media (min-width: 1024px) {
+  .wall.labels { column-count: 3; }
+}
+
+.wall > * {
   break-inside: avoid;
+  margin-bottom: 10px;
+}
+
+.wall.labels > * {
   margin-bottom: 1.5rem;
 }
 
@@ -133,4 +169,13 @@
   pointer-events: none;
   opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
